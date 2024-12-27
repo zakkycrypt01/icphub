@@ -1,10 +1,3 @@
 {
-  "overrides": [
-    {
-      "files": ["path/to/your/file.js", "file-pattern*.js"],
-      "rules": {
-        "rule-name": "off"
-      }
-    }
-  ]
+  "extends": ["next/core-web-vitals", "next/typescript"]
 }
