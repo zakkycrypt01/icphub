@@ -20,7 +20,7 @@ export default function Home() {
                   IC Nomads are ICP Hub Nigeria's full-fledged members, comprising of founders, devs, creatives, and content creators dedicated to shaping the Internet Computer ecosystem.
                 </p>
               </div>
-              <div className="space-y-4 sm:space-y-0 sm:space-x-6">
+              <div className="flex flex-col sm:flex-row sm:gap-4 items-center space-y-2 sm:space-y-0">
                 <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
                   <Link href="/community">
                     Join Community
