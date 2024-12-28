@@ -21,11 +21,6 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row sm:gap-4 items-center space-y-2 sm:space-y-0">
-                <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                  <Link href="/community">
-                    Join Community
-                  </Link>
-                </Button>
                 <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
                   <Link href="/signup">
                     Become an IC Nomad
