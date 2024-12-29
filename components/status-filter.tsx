@@ -8,7 +8,7 @@ type StatusFilterProps = {
 }
 
 export function StatusFilter({ activeFilter, setActiveFilter }: StatusFilterProps) {
-  const filters: Status[] = ['all', 'ongoing', 'completed', 'in-review']
+  const filters: Status[] = ['all', 'ongoing', 'in-review','completed' ]
 
   return (
     <div className="flex space-x-2">

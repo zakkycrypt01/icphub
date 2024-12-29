@@ -23,7 +23,7 @@ export default function Home() {
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none bg-gradient-to-r from-orange-500 via-red-500 to-blue-500 pb-5 bg-clip-text text-transparent">
-                  IC Nomads - powered by ICP Hub
+                  IC Nomads - where community meets innovation ⚡
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
                   IC Nomads are ICP Hub's full-fledged members, comprising of founders, devs, creatives, and content creators dedicated to shaping the Internet Computer ecosystem.
