@@ -13,7 +13,7 @@ const routes = [
     color: "text-sky-500"
   },
   {
-    label: 'Bounties',
+    label: 'Earn',
     icon: Briefcase,
     href: '/bounties',
     color: "text-pink-500"
