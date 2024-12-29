@@ -26,7 +26,7 @@ export default function Home() {
                   IC Nomads - where community meets innovation ⚡
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                  IC Nomads are ICP Hub's full-fledged members, comprising of founders, devs, creatives, and content creators dedicated to shaping the Internet Computer ecosystem.
+                  A platform for founders, devs, creatives, and content creators shaping the Internet Computer ecosystem.
                 </p>
               </div>
               <div className="space-y-4 sm:space-y-0 sm:space-x-6">
