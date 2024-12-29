@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 
-type Bounty = {
+type Status = 'ongoing' | 'completed' | 'in-review'
+
+type Item = {
   id: number
   title: string
   description: string
@@ -15,68 +15,52 @@ type Bounty = {
   skills: string[]
   postedBy: 'admin' | 'company'
   companyName?: string
+  status: Status
 }
 
-export function BountyList() {
-  const [bounties, setBounties] = useState<Bounty[]>([])
+type BountyListProps = {
+  items: Item[]
+}
 
-  useEffect(() => {
-    // In a real application, you would fetch this data from your API
-    const fetchedBounties: Bounty[] = [
-      {
-        id: 1,
-        title: "Develop a DeFi Dashboard",
-        description: "Create a user-friendly dashboard for tracking DeFi investments across multiple protocols on the Internet Computer.",
-        reward: "5000 ICP",
-        deadline: "2024-03-31",
-        skills: ["React", "TypeScript", "DeFi"],
-        postedBy: 'admin'
-      },
-      {
-        id: 2,
-        title: "Smart Contract Auditing Tool",
-        description: "Build an automated tool for auditing smart contracts on the Internet Computer.",
-        reward: "7500 ICP",
-        deadline: "2024-04-15",
-        skills: ["Rust", "Motoko", "Smart Contracts"],
-        postedBy: 'company',
-        companyName: 'TechCorp'
-      },
-      {
-        id: 3,
-        title: "Decentralized Social Media Platform",
-        description: "Develop a decentralized social media platform with end-to-end encryption for the Nigerian market.",
-        reward: "10000 ICP",
-        deadline: "2024-05-30",
-        skills: ["Motoko", "React", "Cryptography"],
-        postedBy: 'admin'
-      }
-    ]
-    setBounties(fetchedBounties)
-  }, [])
+export function BountyList({ items }: BountyListProps) {
+  const getStatusColor = (status: Status) => {
+    switch (status) {
+      case 'ongoing':
+        return 'bg-blue-500'
+      case 'completed':
+        return 'bg-green-500'
+      case 'in-review':
+        return 'bg-yellow-500'
+    }
+  }
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {bounties.map((bounty) => (
-        <Link href={`/bounties/${bounty.id}`} key={bounty.id}>
+      {items.map((item) => (
+        <Link href={`/bounties/${item.id}`} key={item.id}>
           <Card className="h-full hover:shadow-lg transition-shadow duration-200">
             <CardHeader>
-              <CardTitle>{bounty.title}</CardTitle>
+              <CardTitle className="flex justify-between items-center">
+                <span>{item.title}</span>
+                <Badge className={`${getStatusColor(item.status)} text-white`}>
+                  {item.status}
+                </Badge>
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground mb-4">{bounty.description}</p>
+              <p className="text-muted-foreground mb-4">{item.description}</p>
               <div className="flex justify-between items-center mb-4">
-                <span className="font-semibold text-green-600 dark:text-green-400">{bounty.reward}</span>
-                <span className="text-sm text-muted-foreground">Deadline: {bounty.deadline}</span>
+                <span className="font-semibold text-green-600 dark:text-green-400">{item.reward}</span>
+                <span className="text-sm text-muted-foreground">Deadline: {item.deadline}</span>
               </div>
               <div className="flex flex-wrap gap-2 mb-4">
-                {bounty.skills.map((skill) => (
+                {item.skills.map((skill) => (
                   <Badge key={skill} variant="secondary">{skill}</Badge>
                 ))}
               </div>
               <div className="flex justify-between items-center">
-                <Badge variant={bounty.postedBy === 'admin' ? 'default' : 'outline'}>
-                  {bounty.postedBy === 'admin' ? 'Admin' : bounty.companyName}
+                <Badge variant={item.postedBy === 'admin' ? 'default' : 'outline'}>
+                  {item.postedBy === 'admin' ? 'Admin' : item.companyName}
                 </Badge>
               </div>
             </CardContent>
