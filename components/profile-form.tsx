@@ -149,7 +149,7 @@ export function ProfileForm() {
                 <span>{submission.title}</span>
                 <div>
                   <Badge 
-                    variant={submission.status === 'approved' ? 'success' : 
+                    variant={submission.status === 'approved' ? 'default' : 
                              submission.status === 'rejected' ? 'destructive' : 'secondary'}
                   >
                     {submission.status}
