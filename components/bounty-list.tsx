@@ -1,39 +1,60 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
-const bounties = [
-  {
-    id: 1,
-    title: "Develop a DeFi Dashboard",
-    description: "Create a user-friendly dashboard for tracking DeFi investments across multiple protocols on the Internet Computer.",
-    reward: "5000 ICP",
-    deadline: "2024-03-31",
-    skills: ["React", "TypeScript", "DeFi"]
-  },
-  {
-    id: 2,
-    title: "Smart Contract Auditing Tool",
-    description: "Build an automated tool for auditing smart contracts on the Internet Computer.",
-    reward: "7500 ICP",
-    deadline: "2024-04-15",
-    skills: ["Rust", "Motoko", "Smart Contracts"]
-  },
-  {
-    id: 3,
-    title: "Decentralized Social Media Platform",
-    description: "Develop a decentralized social media platform with end-to-end encryption for the Nigerian market.",
-    reward: "10000 ICP",
-    deadline: "2024-05-30",
-    skills: ["Motoko", "React", "Cryptography"]
-  }
-]
+type Bounty = {
+  id: number
+  title: string
+  description: string
+  reward: string
+  deadline: string
+  skills: string[]
+  postedBy: 'admin' | 'company'
+  companyName?: string
+}
 
 export function BountyList() {
+  const [bounties, setBounties] = useState<Bounty[]>([])
+
+  useEffect(() => {
+    // In a real application, you would fetch this data from your API
+    const fetchedBounties: Bounty[] = [
+      {
+        id: 1,
+        title: "Develop a DeFi Dashboard",
+        description: "Create a user-friendly dashboard for tracking DeFi investments across multiple protocols on the Internet Computer.",
+        reward: "5000 ICP",
+        deadline: "2024-03-31",
+        skills: ["React", "TypeScript", "DeFi"],
+        postedBy: 'admin'
+      },
+      {
+        id: 2,
+        title: "Smart Contract Auditing Tool",
+        description: "Build an automated tool for auditing smart contracts on the Internet Computer.",
+        reward: "7500 ICP",
+        deadline: "2024-04-15",
+        skills: ["Rust", "Motoko", "Smart Contracts"],
+        postedBy: 'company',
+        companyName: 'TechCorp'
+      },
+      {
+        id: 3,
+        title: "Decentralized Social Media Platform",
+        description: "Develop a decentralized social media platform with end-to-end encryption for the Nigerian market.",
+        reward: "10000 ICP",
+        deadline: "2024-05-30",
+        skills: ["Motoko", "React", "Cryptography"],
+        postedBy: 'admin'
+      }
+    ]
+    setBounties(fetchedBounties)
+  }, [])
+
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {bounties.map((bounty) => (
@@ -52,6 +73,11 @@ export function BountyList() {
                 {bounty.skills.map((skill) => (
                   <Badge key={skill} variant="secondary">{skill}</Badge>
                 ))}
+              </div>
+              <div className="flex justify-between items-center">
+                <Badge variant={bounty.postedBy === 'admin' ? 'default' : 'outline'}>
+                  {bounty.postedBy === 'admin' ? 'Admin' : bounty.companyName}
+                </Badge>
               </div>
             </CardContent>
           </Card>
