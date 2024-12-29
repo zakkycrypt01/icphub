@@ -1,13 +1,14 @@
 import { ThemeProvider } from '@/components/theme-provider'
 import { Inter } from 'next/font/google'
-import Script from 'next/script'
 import './globals.css'
+import { MainNav } from "@/components/main-nav"
+import Script from 'next/script'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'ICP Hub Sahara',
-  description: 'Building the future of Web3 in the Sahara region',
+  title: 'ICP Hub Nigeria',
+  description: 'Building the future of Web3 in Nigeria through active community engagement',
 }
 
 export default function RootLayout({
@@ -23,9 +24,9 @@ export default function RootLayout({
           strategy="beforeInteractive"
         />
       </head>
-      <body className={`${inter.className} bg-background`}>
-        <div className="min-h-screen bg-[url('/placeholder.svg')] bg-cover bg-center bg-fixed">
-          <div className="min-h-screen bg-background/80 backdrop-blur-sm">
+      <body className={`${inter.className} bg-background flex flex-col min-h-screen`}>
+        <div className="flex-grow bg-[url('/placeholder.svg')] bg-cover bg-center bg-fixed">
+          <div className="min-h-full bg-background/80 backdrop-blur-sm pb-16">
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
@@ -36,7 +37,9 @@ export default function RootLayout({
             </ThemeProvider>
           </div>
         </div>
+        <MainNav />
       </body>
     </html>
   )
 }
+
