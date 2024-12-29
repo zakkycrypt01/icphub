@@ -1,42 +1,39 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import { Header } from "@/components/header"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import Link from "next/link"
+import { ProfileForm } from "@/components/profile-form"
+import { CompanyDashboard } from "@/components/company-dashboard"
+
+type UserType = 'talent' | 'company' | null
 
 export default function ProfilePage() {
+  const [userType, setUserType] = useState<UserType>(null)
+
+  useEffect(() => {
+    // In a real application, you would fetch the user type from your backend or local storage
+    const fetchUserType = async () => {
+      // Simulating an API call
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      // For demonstration, we're randomly setting the user type
+      setUserType(Math.random() > 0.5 ? 'talent' : 'company')
+    }
+
+    fetchUserType()
+  }, [])
+
+  if (userType === null) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main className="container mx-auto px-4 py-8">
-        <Card className="max-w-2xl mx-auto">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold">Your Profile</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center space-x-4 mb-4">
-              <Avatar className="h-20 w-20">
-                <AvatarImage src="/placeholder.svg" alt="Profile picture" />
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <div>
-                <h2 className="text-xl font-semibold">John Doe</h2>
-                <p className="text-muted-foreground">Web3 Developer</p>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <p><strong>Email:</strong> john.doe@example.com</p>
-              <p><strong>Wallet Address:</strong> 0x1234...5678</p>
-              <p><strong>Skills:</strong> Motoko, React, Solidity</p>
-              <p><strong>Bio:</strong> Passionate about building decentralized applications and contributing to the Web3 ecosystem.</p>
-            </div>
-            <div className="mt-6">
-              <Link href="/profile/edit">
-                <Button>Edit Profile</Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+        <h1 className="text-3xl font-bold mb-6">
+          {userType === 'talent' ? 'Your Profile' : 'Company Dashboard'}
+        </h1>
+        {userType === 'talent' ? <ProfileForm /> : <CompanyDashboard />}
       </main>
     </div>
   )
