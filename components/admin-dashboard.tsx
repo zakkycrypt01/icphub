@@ -119,7 +119,7 @@ export function AdminDashboard() {
                     onChange={handleEventDetailsChange}
                   />
                 </div>
-                <Button type="submit">Save Changes</Button>
+                <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' type="submit">Save Changes</Button>
               </form>
             </CardContent>
           </Card>
@@ -153,6 +153,7 @@ function ApplicationsTable({ applications, onUpdateStatus }: {
             <TableCell>{app.status}</TableCell>
             <TableCell>
               <Button 
+              className='w-full bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]'
                 onClick={() => onUpdateStatus(app.id, app.status === 'Approved' ? 'Pending' : 'Approved')}
               >
                 {app.status === 'Approved' ? 'Unapprove' : 'Approve'}

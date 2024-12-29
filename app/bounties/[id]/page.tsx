@@ -130,7 +130,7 @@ export default function BountyDetailPage({ params }: { params: { id: string } })
                   required 
                 />
               </div>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]'>Submit</Button>
             </form>
           </CardContent>
         </Card>
@@ -140,14 +140,14 @@ export default function BountyDetailPage({ params }: { params: { id: string } })
             <CardTitle>Comments</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleCommentSubmit} className="mb-4">
+            <form onSubmit={handleCommentSubmit} className="mb-4 ">
               <Textarea 
                 value={comment} 
                 onChange={(e) => setComment(e.target.value)} 
                 placeholder="Add a comment"
                 className="mb-2"
               />
-              <Button type="submit">Post Comment</Button>
+              <Button type="submit" className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]'>Post Comment</Button>
             </form>
             <div className="space-y-2">
               {comments.map((c, index) => (

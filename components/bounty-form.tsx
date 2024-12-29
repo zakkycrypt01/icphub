@@ -97,7 +97,7 @@ export function BountyForm({ onSubmit }: BountyFormProps) {
               required 
             />
           </div>
-          <Button type="submit">Post Bounty</Button>
+          <Button className='w-full bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' type="submit">Post Bounty</Button>
         </form>
       </CardContent>
     </Card>

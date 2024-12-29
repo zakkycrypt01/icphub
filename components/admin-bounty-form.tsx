@@ -93,7 +93,7 @@ export function AdminBountyForm() {
               required 
             />
           </div>
-          <Button type="submit" className="w-full">Add Bounty</Button>
+          <Button type="submit" className="w-full bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]">Add Bounty</Button>
         </form>
       </CardContent>
     </Card>

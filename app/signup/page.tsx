@@ -41,7 +41,7 @@ export default function SignupPage() {
               </p>
               <ConnectWallet
                 connectButtonComponent={() => (
-                  <Button onClick={handleConnectSuccess}>Connect Wallet</Button>
+                  <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' onClick={handleConnectSuccess}>Connect Wallet</Button>
                 )}
                 connectedButtonComponent={() => (
                   <Button onClick={handleDisconnect}>Disconnect Wallet</Button>
@@ -53,7 +53,7 @@ export default function SignupPage() {
               <p className="mb-4 text-center transition-opacity duration-300">
                 Wallet connected successfully!
               </p>
-              <Button onClick={handleDisconnect} className="mb-4">
+              <Button onClick={handleDisconnect} className="mb-4 bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]">
                 Disconnect Wallet
               </Button>
               <SignupOptions />
