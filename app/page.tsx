@@ -1,8 +1,17 @@
 import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
+import { EditableEventDetails } from "@/components/editable-event-details"
 import Link from 'next/link'
 
 export default function Home() {
+  const isAdmin = true // This is just for demonstration purposes
+
+  const initialEventDetails = {
+    date: "Monday, July 3, 2023",
+    time: "5:30 PM - 7:00 PM WAT",
+    topic: "Introduction to Internet Computer Protocol"
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -14,10 +23,10 @@ export default function Home() {
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none bg-gradient-to-r from-orange-500 via-red-500 to-blue-500 pb-5 bg-clip-text text-transparent">
-                  IC Nomads - powered by ICP Hub Nigeria
+                  IC Nomads - powered by ICP Hub
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                  IC Nomads are ICP Hub Nigeria's full-fledged members, comprising of founders, devs, creatives, and content creators dedicated to shaping the Internet Computer ecosystem.
+                  IC Nomads are ICP Hub's full-fledged members, comprising of founders, devs, creatives, and content creators dedicated to shaping the Internet Computer ecosystem.
                 </p>
               </div>
               <div className="space-y-4 sm:space-y-0 sm:space-x-6">
@@ -64,6 +73,7 @@ export default function Home() {
               </Button>
             </div>
           </div>
+          <EditableEventDetails initialDetails={initialEventDetails} isAdmin={isAdmin} />
         </section>
       </main>
     </div>

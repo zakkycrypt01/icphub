@@ -1,7 +1,7 @@
 import { ThemeToggle } from "@/components/theme-toggle"
 import Image from "next/image"
 import Link from "next/link"
-import logo from "@/assets/images/logo.png" // Importing from `src/assets/images`
+import logo from "@/assets/images/logo.png"
 
 export function Header() {
   return (
@@ -16,7 +16,7 @@ export function Header() {
             className="object-contain"
           />
           <span className="font-bold text-lg">
-            ICP Hub Sahara
+            IC NOMADS
           </span>
         </Link>
         <div className="absolute right-4">

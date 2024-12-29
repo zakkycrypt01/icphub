@@ -1,3 +1,4 @@
+'use client'
 
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
@@ -5,6 +6,15 @@ import { Switch } from "@/components/ui/switch"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { BountyForm } from "@/components/bounty-form"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+type EventDetails = {
+  date: string
+  time: string
+  topic: string
+}
 
 export function AdminDashboard() {
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(true)
@@ -13,6 +23,11 @@ export function AdminDashboard() {
     { id: 2, name: 'Jane Smith', type: 'Talent', role: 'Content Writer', status: 'Approved' },
     { id: 3, name: 'Acme Inc.', type: 'Company', status: 'Pending' },
   ])
+  const [eventDetails, setEventDetails] = useState<EventDetails>({
+    date: "Monday, July 3, 2023",
+    time: "5:30 PM - 7:00 PM WAT",
+    topic: "Introduction to Internet Computer Protocol"
+  })
 
   const handleToggleRegistration = () => {
     setIsRegistrationOpen(!isRegistrationOpen)
@@ -32,6 +47,16 @@ export function AdminDashboard() {
     alert('Bounty posted successfully!')
   }
 
+  const handleEventDetailsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEventDetails({ ...eventDetails, [e.target.name]: e.target.value })
+  }
+
+  const handleSaveEventDetails = () => {
+    console.log('Saving updated event details:', eventDetails)
+    // Here you would typically send the updated details to your backend
+    alert('Event details updated successfully!')
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -49,6 +74,7 @@ export function AdminDashboard() {
         <TabsList>
           <TabsTrigger value="applications">Applications</TabsTrigger>
           <TabsTrigger value="postBounty">Post Bounty</TabsTrigger>
+          <TabsTrigger value="eventDetails">Event Details</TabsTrigger>
         </TabsList>
         <TabsContent value="applications">
           <ApplicationsTable 
@@ -58,6 +84,45 @@ export function AdminDashboard() {
         </TabsContent>
         <TabsContent value="postBounty">
           <BountyForm onSubmit={handlePostBounty} />
+        </TabsContent>
+        <TabsContent value="eventDetails">
+          <Card>
+            <CardHeader>
+              <CardTitle>Edit Event Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={(e) => { e.preventDefault(); handleSaveEventDetails(); }} className="space-y-4">
+                <div>
+                  <Label htmlFor="date">Date</Label>
+                  <Input
+                    id="date"
+                    name="date"
+                    value={eventDetails.date}
+                    onChange={handleEventDetailsChange}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="time">Time</Label>
+                  <Input
+                    id="time"
+                    name="time"
+                    value={eventDetails.time}
+                    onChange={handleEventDetailsChange}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="topic">Topic</Label>
+                  <Input
+                    id="topic"
+                    name="topic"
+                    value={eventDetails.topic}
+                    onChange={handleEventDetailsChange}
+                  />
+                </div>
+                <Button type="submit">Save Changes</Button>
+              </form>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>
