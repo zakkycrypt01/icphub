@@ -13,7 +13,7 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none bg-gradient-to-r from-orange-500 via-red-500 to-blue-500 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none bg-gradient-to-r from-orange-500 via-red-500 to-blue-500 pb-5 bg-clip-text text-transparent">
                   IC Nomads - powered by ICP Hub Nigeria
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
@@ -21,11 +21,6 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-y-4 sm:space-y-0 sm:space-x-6">
-                <Button asChild className="bg-gradient-to-r from-orange-500 to-red-500 text-white">
-                  <Link href="/activity">
-                    Join Community
-                  </Link>
-                </Button>
                 <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
                   <Link href="/signup">
                     Become an IC Nomad
