@@ -1,8 +1,8 @@
+import Script from 'next/script'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { MainNav } from "@/components/main-nav"
-import Script from 'next/script'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
+       <head>
         <Script
           src="https://telegram.org/js/telegram-web-app.js?56"
           strategy="beforeInteractive"
