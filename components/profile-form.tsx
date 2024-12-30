@@ -122,7 +122,7 @@ export function ProfileForm() {
                   required 
                 />
               </div>
-              <Button type="submit" className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]'>Save Changes</Button>
+              <Button type="submit" className='bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]'>Save Changes</Button>
             </form>
           ) : (
             <div className="space-y-4">
@@ -132,7 +132,7 @@ export function ProfileForm() {
               <p><strong>Telegram:</strong> {profile.telegramHandle}</p>
               <p><strong>Twitter:</strong> {profile.twitterHandle}</p>
               <p><strong>ICP Wallet:</strong> {profile.icpWalletAddress}</p>
-              <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' onClick={() => setIsEditing(true)}>Edit Profile</Button>
+              <Button className='bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]' onClick={() => setIsEditing(true)}>Edit Profile</Button>
             </div>
           )}
         </CardContent>

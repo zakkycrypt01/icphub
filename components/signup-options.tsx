@@ -19,7 +19,7 @@ export function SignupOptions() {
               <CardDescription>For developers, creators, and community builders</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]'>Choose Talent</Button>
+              <Button className='bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]'>Choose Talent</Button>
             </CardContent>
           </Card>
           <Card className="cursor-pointer" onClick={() => setSelectedOption('company')}>
@@ -28,7 +28,7 @@ export function SignupOptions() {
               <CardDescription>For businesses and organizations</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]'>Choose Company</Button>
+              <Button className='bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]'>Choose Company</Button>
             </CardContent>
           </Card>
         </div>
