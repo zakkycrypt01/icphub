@@ -73,7 +73,7 @@ export default function Home() {
               </Button>
             </div>
           </div>
-          <EditableEventDetails initialDetails={initialEventDetails} isAdmin={isAdmin} />
+          <EditableEventDetails initialDetails={initialEventDetails} />
         </section>
       </main>
     </div>
