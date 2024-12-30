@@ -18,15 +18,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-       <head>
+      <head>
         <Script
           src="https://telegram.org/js/telegram-web-app.js?56"
           strategy="beforeInteractive"
         />
       </head>
-      <body className={`${inter.className} bg-background flex flex-col min-h-screen`}>
-        <div className="flex-grow bg-[url('/placeholder.svg')] bg-cover bg-center bg-fixed">
-          <div className="min-h-full bg-background/80 backdrop-blur-sm pb-16">
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
+        <div className="flex-grow bg-gradient-to-r from-[#C0D9FF] to-[#F0B9E5] dark:from-[#0E031F] dark:to-[#281447]">
+          <div className="min-h-screen backdrop-blur-sm">
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
