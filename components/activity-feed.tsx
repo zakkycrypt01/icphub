@@ -56,7 +56,7 @@ export function ActivityFeed() {
   return (
     <Card>
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-2 bg-gradient-to-r from-blue-200 to-pink-200 dark:from-blue-800 dark:to-pink-800">
           <TabsTrigger value="invite">Invite Leaderboard</TabsTrigger>
           <TabsTrigger value="bounty">Bounty Leaderboard</TabsTrigger>
         </TabsList>

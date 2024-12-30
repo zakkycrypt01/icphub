@@ -71,7 +71,7 @@ export function AdminDashboard() {
       </div>
 
       <Tabs defaultValue="applications">
-        <TabsList>
+        <TabsList className='grid w-full grid-cols-2 bg-gradient-to-r from-blue-200 to-pink-200 dark:from-blue-800 dark:to-pink-800'>
           <TabsTrigger value="applications">Applications</TabsTrigger>
           <TabsTrigger value="postBounty">Post Bounty</TabsTrigger>
           <TabsTrigger value="eventDetails">Event Details</TabsTrigger>

@@ -98,7 +98,7 @@ export function BountyGigTabs() {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <TabsList className="grid w-full grid-cols-2">
+      <TabsList className="grid w-full grid-cols-2 bg-gradient-to-r from-blue-200 to-pink-200 dark:from-blue-800 dark:to-pink-800">
         <TabsTrigger value="bounties">Bounties</TabsTrigger>
         <TabsTrigger value="gigs">Gigs</TabsTrigger>
       </TabsList>
