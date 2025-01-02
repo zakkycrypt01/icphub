@@ -91,7 +91,7 @@ export function TalentSignupForm() {
           </div>
         </RadioGroup>
       </div>
-      <Button className='bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]' type="submit">Submit Application</Button>
+      <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' type="submit">Submit Application</Button>
     </form>
   )
 }

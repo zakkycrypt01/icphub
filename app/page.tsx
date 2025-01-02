@@ -30,7 +30,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-y-4 sm:space-y-0 sm:space-x-6">
-                <Button asChild className="bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]">
+                <Button asChild className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]">
                   <Link href="/signup">
                     Become an IC Nomad
                   </Link>
@@ -45,7 +45,7 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Generate your own nomad PFP to join the movement!</h2>
-              <Button asChild className="bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]">
+              <Button asChild className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]">
                 <Link href="/mint-pfp">
                   Mint IC Nomad PFP
                 </Link>
@@ -66,7 +66,7 @@ export default function Home() {
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Let's hangout, connect, learn, and have a blast with fellow enthusiasts. Whether you're a seasoned pro or just starting out, there's something for everyone.
               </p>
-              <Button asChild className="bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]">
+              <Button asChild className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]">
                 <Link href="/set-reminder">
                   Set a reminder here
                 </Link>

@@ -35,7 +35,7 @@ export function AdminAuth({ onAuth }: { onAuth: () => void }) {
               required 
             />
           </div>
-          <Button type="submit" className="w-full bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]">Login</Button>
+          <Button type="submit" className="w-full bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]">Login</Button>
         </form>
       </CardContent>
     </Card>

@@ -130,7 +130,7 @@ export default function BountyDetailPage({ params }: { params: { id: string } })
                   required 
                 />
               </div>
-              <Button type="submit" className='bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]'>Submit</Button>
+              <Button type="submit" className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]'>Submit</Button>
             </form>
           </CardContent>
         </Card>

@@ -53,7 +53,7 @@ export function CompanySignupForm() {
         <Label htmlFor="description">Company Description</Label>
         <Textarea id="description" name="description" value={formData.description} onChange={handleChange} required />
       </div>
-      <Button type="submit" className='bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]'>Submit Application</Button>
+      <Button type="submit" className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]'>Submit Application</Button>
     </form>
   )
 }

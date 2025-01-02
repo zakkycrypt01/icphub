@@ -38,11 +38,11 @@ export function InviteContent() {
                 <Label htmlFor="inviteLink">Invite Link</Label>
                 <div className="flex space-x-2">
                   <Input id="inviteLink" value={inviteLink} readOnly />
-                  <Button className="bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]" onClick={generateInviteLink}>Generate</Button>
+                  <Button className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]" onClick={generateInviteLink}>Generate</Button>
                 </div>
               </div>
               {inviteLink && (
-                <Button className="w-full bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]" onClick={() => navigator.clipboard.writeText(inviteLink)}>
+                <Button className="w-full bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]" onClick={() => navigator.clipboard.writeText(inviteLink)}>
                   Copy Link
                 </Button>
               )}

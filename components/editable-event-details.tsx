@@ -29,7 +29,7 @@ export function EditableEventDetails({ initialDetails }: EditableEventDetailsPro
       <p className="mb-2 text-gray-700 dark:text-gray-300"><strong>Date:</strong> {details.date}</p>
       <p className="mb-2 text-gray-700 dark:text-gray-300"><strong>Time:</strong> {details.time}</p>
       <p className="mb-4 text-gray-700 dark:text-gray-300"><strong>Topic:</strong> {details.topic}</p>
-      <Button asChild className="w-full bg-transparent hover:bg-gray-700 text-[#A5B9D0] border-2 border-[#A5B9D0]">
+      <Button asChild className="w-full bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]">
         <Link href="/join-meetup">
           Join Meetup
         </Link>
