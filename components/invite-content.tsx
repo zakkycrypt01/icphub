@@ -11,7 +11,7 @@ import useTelegramData from "@/components/telegramData"
 
 
 interface TelegramData {
-  telegram_id: string; // Update type if necessary
+  telegram_id: string;
 }
 
 export function InviteContent() {
