@@ -7,6 +7,7 @@ userRouter
     .post('/postbounty', UserController.httpPostbounty)
     .post('/bounties/:id/submitbounty', UserController.httpSubmitbounty)
     .post('/postevent', UserController.httpPostevent)
+    .post('/invite', UserController.httpStoreinvites)
     .get('/bounties', UserController.httpGetbounties)
     .get('/bounties/:id', UserController.httpGetbounty)
     .get('/talents', UserController.httpGettalents)

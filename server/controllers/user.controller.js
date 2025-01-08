@@ -5,6 +5,7 @@ import Company from '../models/companyDB.js';
 import Bounty from '../models/bountyDB.js';
 import submitbounty from '../models/submitbountyDB.js';
 import event from '../models/eventDB.js';
+import invitesDB from '../models/invitesDB.js';
 
 
 class UserController{
@@ -124,6 +125,17 @@ class UserController{
     static async httpGetevents(request, response){
         const events = await event.find();
         response.status(StatusCodes.OK).json(events);
+    }
+    //store invites
+    static async httpStoreinvites(request, response){
+        const {referredId, referrerId, status} = request.body;
+        const invites = await invitesDB.create({ referredId, referrerId, status});
+        const data = {
+            referredId: invites.referredId,
+            referrerId: invites.referrerId,
+            status: invites.status,
+        }
+        response.status(StatusCodes.CREATED).json(data);
     }
 }
 
