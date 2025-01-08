@@ -82,10 +82,6 @@ export function TalentSignupForm() {
             <Label htmlFor="graphicDesigner">Graphic Designer</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="communityBuilder" id="communityBuilder" />
-            <Label htmlFor="communityBuilder">Community Builder</Label>
-          </div>
-          <div className="flex items-center space-x-2">
             <RadioGroupItem value="nftArtist" id="nftArtist" />
             <Label htmlFor="nftArtist">NFT/Digital Artist</Label>
           </div>

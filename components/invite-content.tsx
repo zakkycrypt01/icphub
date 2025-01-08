@@ -7,18 +7,26 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import useTelegramData from "@/components/telegramData"
+
+
+interface TelegramData {
+  telegram_id: string; // Update type if necessary
+}
 
 export function InviteContent() {
   const [inviteLink, setInviteLink] = useState("")
+  const telegramData = useTelegramData();
   const [invitees, setInvitees] = useState([
     { id: 1, name: "Alice Smith", email: "alice@example.com", status: "Joined" },
     { id: 2, name: "Bob Johnson", email: "bob@example.com", status: "Pending" },
     { id: 3, name: "Charlie Brown", email: "charlie@example.com", status: "Joined" },
   ])
 
+  const referralId = telegramData?.telegram_id;
+  
   const generateInviteLink = () => {
-    // In a real app, you'd generate a unique link here
-    setInviteLink(`https://icphubsahara.com/invite/${Math.random().toString(36).substr(2, 9)}`)
+    return setInviteLink(`https://t.me/ICPHubNigeria_bot/ICPHUBsahara?startapp=${referralId}`)
   }
 
   return (
