@@ -16,11 +16,7 @@ interface TelegramData {
 export function TalentSignupForm() {
   const telegramData = useTelegramData();
 
-  const userId = telegramData?.telegram_id?.toString();
-  console.log(userId)
-
-  
-  console.log(userId);
+  const userId = telegramData?.telegram_id?.toString();  
   
   const [formData, setFormData] = useState({
     firstName: '',
