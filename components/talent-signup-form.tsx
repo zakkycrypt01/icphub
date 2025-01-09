@@ -19,8 +19,8 @@ export function TalentSignupForm() {
 
   const userId = telegramData?.telegram_id?.toString();  
   const Username = telegramData?.username?.toString();
-  console.log(Username)
-  
+  const Firstname = telegramData?.first_name?.toString();
+  const Lastname = telegramData?.last_name?.toString();  
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -50,6 +50,22 @@ export function TalentSignupForm() {
       }))
     }
   }, [Username]);
+  useEffect(() => {
+    if (Firstname) {
+      setFormData((prevData) => ({
+        ...prevData,
+        firstname : Firstname,
+      }))
+    }
+  }, [Firstname]);
+  useEffect(() => {
+    if (Lastname) {
+      setFormData((prevData) => ({
+        ...prevData,
+        lastname : Lastname,
+      }))
+    }
+  }, [Lastname]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
