@@ -11,6 +11,7 @@ const companySchema = new Schema({
     phonenum: {type: Number, required: true},
     website: {type: String, required: true},
     description : {type: String, required: true},
+    telegramId: {type: Number, required: true},
 });
 
 

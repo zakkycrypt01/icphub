@@ -11,8 +11,8 @@ import invitesDB from '../models/invitesDB.js';
 class UserController{
     // create a new user as talent
     static async httpAddtalent(request, response){
-        const {firstname, lastname, email, phonenum, telegram, twitter, PoF, role} = request.body;
-        const talent = await Talent.create({ firstname, lastname, email, phonenum, telegram, twitter, PoF, role});
+        const {firstname, lastname, email, phonenum, telegram, twitter, PoF, role, telegramId} = request.body;
+        const talent = await Talent.create({ firstname, lastname, email, phonenum, telegram, twitter, PoF, role, telegramId});
         const data = {
             firstname: talent.firstname,
             lastname: talent.lastname,
@@ -22,6 +22,7 @@ class UserController{
             twitter: talent.twitter,
             PoF: talent.PoF,
             role: talent.role,
+            telegramId: talent.telegramId,
         }
         response.status(StatusCodes.CREATED).json(data);
     }
@@ -35,8 +36,8 @@ class UserController{
     }
     // create a new user as company
     static async httpAddcompany(request, response){
-        const {companyname, contactname, email, phonenum, website, description} = request.body;
-        const company = await Company.create({ companyname, contactname, email, phonenum, website, description});
+        const {companyname, contactname, email, phonenum, website, description, telegramId} = request.body;
+        const company = await Company.create({ companyname, contactname, email, phonenum, website, description, telegramId});
         const data = {
             companyname: company.companyname,
             contactname: company.contactname,
@@ -44,6 +45,7 @@ class UserController{
             phonenum: company.phonenum,
             website: company.website,
             description: company.description,
+            telegramId: company.telegramId,
         }
         response.status(StatusCodes.CREATED).json(data);
     }

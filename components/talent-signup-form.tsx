@@ -1,13 +1,27 @@
 // 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import useTelegramData from "@/components/telegramData"
+
+interface TelegramData {
+  telegram_id: string;
+}
+
 
 export function TalentSignupForm() {
+  const telegramData = useTelegramData();
+
+  const userId = telegramData?.telegram_id?.toString();
+  console.log(userId)
+
+  
+  console.log(userId);
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -16,9 +30,18 @@ export function TalentSignupForm() {
     telegramHandle: '',
     twitterProfile: '',
     proofOfWork: '',
-    role: ''
+    role: '',
+    telegram_Id:''
   })
-
+  
+  useEffect(() => {
+    if (userId) {
+      setFormData((prevData) => ({
+        ...prevData,
+        telegram_Id: userId,
+      }));
+    }
+  }, [userId]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -61,6 +84,10 @@ export function TalentSignupForm() {
       <div>
         <Label htmlFor="proofOfWork">Proof of Work</Label>
         <Textarea id="proofOfWork" name="proofOfWork" value={formData.proofOfWork} onChange={handleChange} required />
+      </div>
+      <div>
+        <Label htmlFor="telegram_Id">Telegram ID</Label>
+        <Input id="telegramID" name="telegram_Id" value={formData.telegram_Id} onChange={handleChange} required readOnly/>
       </div>
       <div>
         <Label>Role</Label>
