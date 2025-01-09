@@ -12,8 +12,8 @@ import { log } from 'console';
 class UserController{
     // create a new user as talent
     static async httpAddtalent(request, response){
-        const {firstname, lastname, email, phonenum, telegram, twitter, PoF, role, telegramId} = request.body;
-        const talent = await Talent.create({ firstname, lastname, email, phonenum, telegram, twitter, PoF, role, telegramId});
+        const {firstname, lastname, email, phonenum, telegram, twitter, PoF, role, telegramId, state} = request.body;
+        const talent = await Talent.create({ firstname, lastname, email, phonenum, telegram, twitter, PoF, role, telegramId, state});
         const data = {
             firstname: talent.firstname,
             lastname: talent.lastname,
@@ -24,6 +24,7 @@ class UserController{
             PoF: talent.PoF,
             role: talent.role,
             telegramId: talent.telegramId,
+            state: talent.state,
         }
         response.status(StatusCodes.CREATED).json({
             data

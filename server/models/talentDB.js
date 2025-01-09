@@ -14,6 +14,7 @@ const talentSchema = new Schema({
     PoF : {type: String, required: true},
     role : {type: String, required: true},
     telegramId: {type: Number, required: true},
+    state: {type: String, required: true},
 });
 
 

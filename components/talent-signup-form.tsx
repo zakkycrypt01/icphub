@@ -30,7 +30,8 @@ export function TalentSignupForm() {
     twitter: '',
     PoF: '',
     role: '',
-    telegramId:''
+    telegramId:'',
+    state: ''
   })
   
   useEffect(() => {
@@ -143,6 +144,39 @@ console.log('response :>> ', result);
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="nftArtist" id="nftArtist" />
             <Label htmlFor="nftArtist">NFT/Digital Artist</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="founder" id="founder" />
+            <Label htmlFor="founder">Founder</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="community mod" id="nftArtist" />
+            <Label htmlFor="community mod">Community Moderator</Label>
+          </div>
+        </RadioGroup>
+      </div>
+      <div>
+        <Label> State </Label>
+        <RadioGroup onValueChange={(value: string) => setFormData({ ...formData, state: value })} required>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="lagos" id="lagos" />
+            <Label htmlFor="lagos">Lagos</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="abuja" id="abuja" />
+            <Label htmlFor="abuja">Abuja</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="portharcourt" id="portharcourt" />
+            <Label htmlFor="portharcourt">Port Harcourt</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="ibadan" id="ibadan" />
+            <Label htmlFor="ibadan">Ibadan</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="others" id="others" />
+            <Label htmlFor="others">Others</Label>
           </div>
         </RadioGroup>
       </div>
