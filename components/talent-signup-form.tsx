@@ -18,6 +18,8 @@ export function TalentSignupForm() {
   const LOCAL_URL = 'http://localhost:2001';
 
   const userId = telegramData?.telegram_id?.toString();  
+  const Username = telegramData?.username?.toString();
+  console.log(Username)
   
   const [formData, setFormData] = useState({
     firstname: '',
@@ -39,6 +41,16 @@ export function TalentSignupForm() {
       }));
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (Username) {
+      setFormData((prevData) => ({
+        ...prevData,
+        telegram : Username,
+      }))
+    }
+  }, [Username]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -79,7 +91,7 @@ console.log('response :>> ', result);
       </div>
       <div>
         <Label htmlFor="telegramHandle">Telegram Handle</Label>
-        <Input id="telegramHandle" name="telegram" value={formData.telegram} onChange={handleChange} required />
+        <Input id="telegramHandle" name="telegram" value={formData.telegram} onChange={handleChange} required readOnly/>
       </div>
       <div>
         <Label htmlFor="twitterProfile">Twitter Profile Handle</Label>
