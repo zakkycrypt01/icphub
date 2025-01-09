@@ -6,6 +6,7 @@ import Bounty from '../models/bountyDB.js';
 import submitbounty from '../models/submitbountyDB.js';
 import event from '../models/eventDB.js';
 import invitesDB from '../models/invitesDB.js';
+import { log } from 'console';
 
 
 class UserController{
@@ -24,7 +25,9 @@ class UserController{
             role: talent.role,
             telegramId: talent.telegramId,
         }
-        response.status(StatusCodes.CREATED).json(data);
+        response.status(StatusCodes.CREATED).json({
+            data
+        });
     }
 
 

@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import useTelegramData from "@/components/telegramData"
+import { registerTalent } from '@/actions/registertalent'
 
 interface TelegramData {
   telegram_id: string;
@@ -14,35 +15,44 @@ interface TelegramData {
 export function TalentSignupForm() {
   const telegramData = useTelegramData();
 
+  const LOCAL_URL = 'http://localhost:2001';
+
   const userId = telegramData?.telegram_id?.toString();  
   
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     email: '',
-    phoneNumber: '',
-    telegramHandle: '',
-    twitterProfile: '',
-    proofOfWork: '',
+    phonenum: '',
+    telegram: '',
+    twitter: '',
+    PoF: '',
     role: '',
-    telegram_Id:''
+    telegramId:''
   })
   
   useEffect(() => {
     if (userId) {
       setFormData((prevData) => ({
         ...prevData,
-        telegram_Id: userId,
+        telegramId: userId,
       }));
     }
   }, [userId]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
-
-  const handleSubmit = (e: React.FormEvent) => {
+  
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Here you would typically send the form data to your backend
+ const result = await registerTalent(formData);
+console.log('response :>> ', result);    
+    if (result.data){
+      console.log('Talent form submitted:', result.data)
+    } else{
+      alert(result.msg || 'Something went wrong can you please try again');
+    }
     console.log('Talent form submitted:', formData)
     // Reset form or show success message
   }
@@ -51,12 +61,12 @@ export function TalentSignupForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="firstName">First Name</Label>
-          <Input id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} required />
+          <Label htmlFor="firstname">First Name</Label>
+          <Input id="firstName" name="firstname" value={formData.firstname} onChange={handleChange} required />
         </div>
         <div>
-          <Label htmlFor="lastName">Last Name</Label>
-          <Input id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} required />
+          <Label htmlFor="lastname">Last Name</Label>
+          <Input id="lastName" name="lastname" value={formData.lastname} onChange={handleChange} required />
         </div>
       </div>
       <div>
@@ -64,24 +74,24 @@ export function TalentSignupForm() {
         <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required />
       </div>
       <div>
-        <Label htmlFor="phoneNumber">Phone Number</Label>
-        <Input id="phoneNumber" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required />
+        <Label htmlFor="phonenum">Phone Number</Label>
+        <Input id="phonenum" name="phonenum" value={formData.phonenum} onChange={handleChange} required />
       </div>
       <div>
         <Label htmlFor="telegramHandle">Telegram Handle</Label>
-        <Input id="telegramHandle" name="telegramHandle" value={formData.telegramHandle} onChange={handleChange} required />
+        <Input id="telegramHandle" name="telegram" value={formData.telegram} onChange={handleChange} required />
       </div>
       <div>
         <Label htmlFor="twitterProfile">Twitter Profile Handle</Label>
-        <Input id="twitterProfile" name="twitterProfile" value={formData.twitterProfile} onChange={handleChange} required />
+        <Input id="twitterProfile" name="twitter" value={formData.twitter} onChange={handleChange} required />
       </div>
       <div>
         <Label htmlFor="proofOfWork">Proof of Work</Label>
-        <Textarea id="proofOfWork" name="proofOfWork" value={formData.proofOfWork} onChange={handleChange} required />
+        <Textarea id="proofOfWork" name="PoF" value={formData.PoF} onChange={handleChange} required />
       </div>
       <div>
         <Label htmlFor="telegram_Id">Telegram ID</Label>
-        <Input id="telegramID" name="telegram_Id" value={formData.telegram_Id} onChange={handleChange} required readOnly/>
+        <Input id="telegramID" name="telegramId" value={formData.telegramId} onChange={handleChange} required readOnly/>
       </div>
       <div>
         <Label>Role</Label>
