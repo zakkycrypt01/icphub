@@ -32,13 +32,13 @@ class UserController{
     }
 
 
-    //get a talent
+    //get a talent telegramId
     static async httpGettalent(request, response){
         const talent = await
-        Talent.findById(request.params.id);
+        Talent.findOne({telegramId: request.params.telegramId});
         response.status(StatusCodes.OK).json(talent);
     }
-    // create a new user as company
+    
     static async httpAddcompany(request, response){
         const {companyname, contactname, email, phonenum, website, description, telegramId} = request.body;
         const company = await Company.create({ companyname, contactname, email, phonenum, website, description, telegramId});
