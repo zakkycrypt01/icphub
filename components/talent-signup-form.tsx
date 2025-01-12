@@ -22,15 +22,20 @@ export function TalentSignupForm() {
         console.log("Telegram data is missing.");
         return;
       }
-      const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
-      if (fetchedProfile) {
-        console.log("User is already registered.");
-        Router.push("/profile");
+  
+      try {
+        const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
+        if (fetchedProfile) {
+          console.log("User is already registered.");
+          Router.push("/profile"); // Alternatively, you can use `router.push` from the hook
+        }
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
       }
     };
-    loadUserProfile();
+    loadUserProfile
   }, [telegramData]);
-
+  
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
