@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import useTelegramData from "@/components/telegramData";
 import { registerTalent } from "@/actions/registertalent";
+console.log(process.env.NEXT_PUBLIC_API_URL);
 
 export function TalentSignupForm() {
   const telegramData = useTelegramData();
