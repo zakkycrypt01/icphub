@@ -44,6 +44,7 @@ export function TalentSignupForm() {
   }, [telegramData]);
 
   const validateForm = () => {
+    console.log("Validating form data:", formData);
     const errors: { email: string; phonenum: string } = { email: "", phonenum: "" };
     if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "Invalid email address";
     if (!/^\d{10,15}$/.test(formData.phonenum)) errors.phonenum = "Invalid phone number";
@@ -58,6 +59,8 @@ export function TalentSignupForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
+
+    console.log("Talent form submitted:", formData);
 
     setLoading(true);
     try {
