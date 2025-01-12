@@ -14,7 +14,6 @@ const getUrl = async () => {
 
 
 const connectDB = async (url) => {
-    console.log('url :>> ', url);
     try {
         connection.once("open", () => console.log("Connected to database"));
         set("strictQuery", false);
