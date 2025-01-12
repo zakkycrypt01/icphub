@@ -12,8 +12,7 @@ console.log(process.env.NEXT_PUBLIC_API_URL);
 
 export function TalentSignupForm() {
   const telegramData = useTelegramData();
-  const router = useRouter();
-
+  
   // Fetch the profile on component mount and check if the user is already registered
   useEffect(() => {
     const loadUserProfile = async () => {
@@ -23,6 +22,7 @@ export function TalentSignupForm() {
       }
       const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
       if (fetchedProfile) {
+        const router = useRouter();
         console.log("User is already registered.");
         router.push("/profile");
       }
