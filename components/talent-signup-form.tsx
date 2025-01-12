@@ -1,7 +1,4 @@
-'use client';
-
 import { useState, useEffect } from "react";
-import Router from "next/router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +11,7 @@ console.log(process.env.NEXT_PUBLIC_API_URL);
 
 export function TalentSignupForm() {
   const telegramData = useTelegramData();
-  
+
   // Fetch the profile on component mount and check if the user is already registered
   useEffect(() => {
     const loadUserProfile = async () => {
@@ -22,24 +19,14 @@ export function TalentSignupForm() {
         console.log("Telegram data is missing.");
         return;
       }
-  
-      try {
-        const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
-        if (fetchedProfile) {
-          console.log("User is already registered.");
-          Router.push("/profile"); // Alternatively, you can use `router.push` from the hook
-        }
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
+      const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
+      if (fetchedProfile) {
+        console.log("User is already registered.");
       }
     };
-  
-    // Ensure this runs only on the client
-    if (typeof window !== "undefined") {
-      loadUserProfile();
-    }
+    loadUserProfile();
   }, [telegramData]);
-  
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
