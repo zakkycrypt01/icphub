@@ -33,7 +33,11 @@ export function TalentSignupForm() {
         console.error("Error fetching user profile:", error);
       }
     };
-    loadUserProfile
+  
+    // Ensure this runs only on the client
+    if (typeof window !== "undefined") {
+      loadUserProfile();
+    }
   }, [telegramData]);
   
   const [formData, setFormData] = useState({
