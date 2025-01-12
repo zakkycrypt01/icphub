@@ -1,6 +1,7 @@
 console.log(process.env.NEXT_PUBLIC_API_URL);
 
 export const registerTalent = async (formData: any) => {
+  console.log("Talent form submitted:", formData);
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/talent/signup`, {
     method: 'POST',
     headers: {
