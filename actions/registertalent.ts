@@ -8,6 +8,7 @@ export const registerTalent = async (formData: any) => {
     },
     body: JSON.stringify(formData)
   });
+  console.log('response :>> ', response);
   const result = await response.json();
   console.log('result :>> ', result);
   return result;

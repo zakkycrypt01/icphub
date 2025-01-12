@@ -56,7 +56,7 @@ export function TalentSignupForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("Talent form submitted:", );
+    console.log("Talent form submitted:", formData);
     e.preventDefault();
     if (!validateForm()) return;
 
