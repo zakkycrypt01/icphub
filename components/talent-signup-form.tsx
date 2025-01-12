@@ -43,14 +43,6 @@ export function TalentSignupForm() {
     }
   }, [telegramData]);
 
-  const validateForm = () => {
-    console.log("Validating form data:", formData);
-    const errors: { email: string; phonenum: string } = { email: "", phonenum: "" };
-    if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = "Invalid email address";
-    if (!/^\d{10,15}$/.test(formData.phonenum)) errors.phonenum = "Invalid phone number";
-    setError(errors);
-    return Object.keys(errors).length === 0;
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -58,24 +50,12 @@ export function TalentSignupForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form data:", validateForm());
-    if (!validateForm()) return;
-
-    console.log("Talent form submitted:", formData);
-
     setLoading(true);
-    try {
-      const result = await registerTalent(formData);
-      if (result.data) {
-        console.log("Talent form submitted:", result.data);
-      } else {
-        alert(result.msg || "Something went wrong, please try again.");
-      }
-    } catch (error) {
-      console.error("Submission error:", error);
-    } finally {
-      setLoading(false);
+    const response = await registerTalent(formData);
+    if (response.error) {
+      setError(response.error);
     }
+    setLoading
   };
 
   return (
