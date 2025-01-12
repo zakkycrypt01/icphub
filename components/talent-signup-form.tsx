@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +10,6 @@ import { fetchUserProfile } from "@/actions/fetchuser";
 console.log(process.env.NEXT_PUBLIC_API_URL);
 
 export function TalentSignupForm() {
-  const router = useRouter();
   const telegramData = useTelegramData();
 
   // Fetch the profile on component mount and check if the user is already registered
@@ -78,7 +76,7 @@ export function TalentSignupForm() {
     e.preventDefault();
     setLoading(true);
     const response = await registerTalent(formData);
-    router.push("/profile");
+
     if (response.error) {
       setError(response.error);
     }
