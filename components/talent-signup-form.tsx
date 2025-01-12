@@ -6,10 +6,27 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import useTelegramData from "@/components/telegramData";
 import { registerTalent } from "@/actions/registertalent";
+import { fetchUserProfile } from "@/actions/fetchuser"; 
 console.log(process.env.NEXT_PUBLIC_API_URL);
 
 export function TalentSignupForm() {
   const telegramData = useTelegramData();
+
+  // Fetch the profile on component mount and check if the user is already registered
+  useEffect(() => {
+    const loadUserProfile = async () => {
+      if (!telegramData) {
+        console.log("Telegram data is missing.");
+        return;
+      }
+      const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
+      if (fetchedProfile) {
+        console.log("User is already registered.");
+        
+      }
+    };
+    loadUserProfile();
+  }, [telegramData]);
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -48,10 +65,18 @@ export function TalentSignupForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  //validate email
+  const validateEmail = (email: string) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     const response = await registerTalent(formData);
+
     if (response.error) {
       setError(response.error);
     }
