@@ -12,7 +12,7 @@ const companySchema = new Schema({
     website: {type: String, required: true},
     description : {type: String, required: true},
     telegramId: {type: Number, required: true},
-    usertype: {type: String, enum:[company,talent],default: company},
+    usertype: {type: String, enum:["company","talent"],default: "company"},
 });
 
 
