@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +12,8 @@ console.log(process.env.NEXT_PUBLIC_API_URL);
 
 export function TalentSignupForm() {
   const telegramData = useTelegramData();
-
+  const Router = useRouter();
+  
   const loadUserProfile = async () => {
     if (!telegramData) {
       console.log("Telegram data is missing.");
@@ -20,6 +22,7 @@ export function TalentSignupForm() {
     const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
     if (fetchedProfile) {
       console.log("User is already registered.");
+      return Router.push("/profile");
     }
   }
 
@@ -75,11 +78,12 @@ export function TalentSignupForm() {
     e.preventDefault();
     setLoading(true);
     const response = await registerTalent(formData);
-
     if (response.error) {
       setError(response.error);
+    } else {
+      Router.push("/profile");
     }
-    setLoading
+    setLoading(false);
   };
 
   return (
