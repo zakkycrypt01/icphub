@@ -54,6 +54,13 @@ class UserController{
         response.status(StatusCodes.CREATED).json(data);
     }
 
+    //get company by telegramId
+    static async httpGetcompany(request, response){
+        const company = await
+        Company.findOne({telegramId: request.params.telegramId});
+        response.status(StatusCodes.OK).json(company);
+    }
+
     
     // post a bounty
     static async httpPostbounty(request, response){

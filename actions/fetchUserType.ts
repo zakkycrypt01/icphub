@@ -1,27 +1,60 @@
-// fetch talent
+// fetch usertype
 
-interface UserProfile {
-    firstname: string;
-    email: string;
-    telegram: string;
-    twitter: string;
+interface UserTypes{
+    usertype: string;
 }
 
-export const fetchUserProfile = async (telegramId: string): Promise<UserProfile | null> => {
+// export const fetchUserType = async (telegramId: string): Promise<UserTypes| null> => {
+//     if (!telegramId) {
+//         console.error("Telegram ID is missing.");
+//         return null;
+//     }
+
+//     try {
+//         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/talents/${telegramId}`);
+//         if (!response.ok) {
+//             throw new Error(`Error: ${response.status} - ${response.statusText}`);
+//         }
+//         const data: UserTypes = await response.json();
+//         return data;
+//     } catch (error) {
+//         console.error("Error fetching user profile:", error);
+//         return null;
+//     }
+// };
+
+//fetch usertype in the backend in /api/talents/${telegramId} and /api/companies/${telegramId}
+export const fetchUserType = async (telegramId: string): Promise<UserTypes | null> => {
     if (!telegramId) {
         console.error("Telegram ID is missing.");
         return null;
     }
 
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/talents/${telegramId}`);
-        if (!response.ok) {
+    const fetchUserData = async (url: string): Promise<UserTypes | null> => {
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+                return await response.json();
+            }
+            if (response.status === 404) {
+                return null; // Not found, continue checking other endpoints
+            }
             throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        } catch (error) {
+            console.error(`Error fetching from ${url}:`, error);
+            return null;
         }
-        const data: UserProfile = await response.json();
-        return data;
+    };
+
+    try {
+        const [talentData, companyData] = await Promise.all([
+            fetchUserData(`${process.env.NEXT_PUBLIC_API_URL}/api/talents/${telegramId}`),
+            fetchUserData(`${process.env.NEXT_PUBLIC_API_URL}/api/companies/${telegramId}`)
+        ]);
+
+        return talentData || companyData || null; // Return the first valid result or null
     } catch (error) {
-        console.error("Error fetching user profile:", error);
+        console.error("Unexpected error during parallel requests:", error);
         return null;
     }
 };

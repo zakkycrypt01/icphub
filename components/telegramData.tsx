@@ -41,7 +41,7 @@ const useTelegramData = () => {
                 username: "test",
                 first_name: "test",
                 last_name: "test",
-                telegram_id: 123,
+                telegram_id: 1213,
             });
         }
     }; useEffect(() => {

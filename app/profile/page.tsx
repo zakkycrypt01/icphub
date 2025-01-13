@@ -5,23 +5,31 @@ import { Header } from "@/components/header"
 import { ProfileForm } from "@/components/profile-form"
 import { CompanyDashboard } from "@/components/company-dashboard"
 import useTelegramData from "@/components/telegramData"
-
+import { fetchUserType } from "@/actions/fetchUserType"
 type UserType = 'talent' | 'company' | null
 
 export default function ProfilePage() {
   const [userType, setUserType] = useState<UserType>(null)
+  const telegramData = useTelegramData();
+  const telegramId = telegramData?.telegram_id;
 
-  useEffect(() => {
-    // In a real application, you would fetch the user type from your backend or local storage
-    const fetchUserType = async () => {
-      // Simulating an API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      // For demonstration, we're randomly setting the user type
-      setUserType(Math.random() > 0.5 ? 'talent' : 'company')
+  const loadUserType = async () => {
+    if (!telegramId) {
+      console.log('Telegram ID is missing.');
+      return;
     }
+    const fetchedUserType = await fetchUserType(telegramId.toString());
+    console.log(fetchedUserType);
+    if (fetchedUserType) {
+      setUserType(fetchedUserType.usertype as UserType);
+    }
+  }
+  console.log(userType);
 
-    fetchUserType()
-  }, [])
+  //set user type
+  useEffect(() => {
+    loadUserType();
+  }, [telegramId]);
 
   if (userType === null) {
     return <div>Loading...</div>
