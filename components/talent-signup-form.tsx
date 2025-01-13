@@ -12,22 +12,21 @@ console.log(process.env.NEXT_PUBLIC_API_URL);
 export function TalentSignupForm() {
   const telegramData = useTelegramData();
 
-  // Fetch the profile on component mount and check if the user is already registered
+  const loadUserProfile = async () => {
+    if (!telegramData) {
+      console.log("Telegram data is missing.");
+      return;
+    }
+    const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
+    if (fetchedProfile) {
+      console.log("User is already registered.");
+    }
+  }
+
   useEffect(() => {
-    const loadUserProfile = async () => {
-      if (!telegramData) {
-        console.log("Telegram data is missing.");
-        return;
-      }
-      const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
-      if (fetchedProfile) {
-        console.log("User is already registered.");
-      }
-    };
     loadUserProfile();
   }, [telegramData]);
   
-
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
