@@ -16,6 +16,7 @@ export function TalentSignupForm() {
   
   const loadUserProfile = async () => {
     if (!telegramData) {
+      setLoading(true);
       console.log("Telegram data is missing.");
       return;
     }
@@ -24,6 +25,7 @@ export function TalentSignupForm() {
       console.log("User is already registered.");
       return Router.push("/profile");
     }
+    setLoading(false);
   }
 
   useEffect(() => {
