@@ -15,7 +15,7 @@ const talentSchema = new Schema({
     role : {type: String, required: true},
     telegramId: {type: Number, required: true},
     state: {type: String, required: true},
-    usertype: {type: String, default: talent},
+    usertype: {type: String,enum:[talent,company], default: talent},
 });
 
 
