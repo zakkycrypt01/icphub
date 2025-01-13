@@ -7,7 +7,7 @@ import userRouter from './routes/userRouter.js';
 dotenv.config();
 
 const corsOptions = {
-    origin: "*",
+    origin: true,
     credentials: true,
     preflightContinue: true,
 };

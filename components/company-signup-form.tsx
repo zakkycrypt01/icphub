@@ -13,7 +13,7 @@ export function CompanySignupForm() {
   const telegramData = useTelegramData();
   const Router = useRouter();
   const [formData, setFormData] = useState({
-    companyName: '',
+    companyname: '',
     contactname: '',
     email: '',
     phonenum: '',
@@ -56,8 +56,8 @@ export function CompanySignupForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <Label htmlFor="companyName">Company Name</Label>
-        <Input id="companyName" name="companyName" value={formData.companyName} onChange={handleChange} required />
+        <Label htmlFor="companyname">Company Name</Label>
+        <Input id="companyname" name="companyname" value={formData.companyname} onChange={handleChange} required />
       </div>
       <div>
         <Label htmlFor="contactPersonName">Contact Person Name</Label>
