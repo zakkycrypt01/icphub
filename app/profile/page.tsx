@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Header } from "@/components/header"
 import { ProfileForm } from "@/components/profile-form"
 import { CompanyDashboard } from "@/components/company-dashboard"
+import useTelegramData from "@/components/telegramData"
 
 type UserType = 'talent' | 'company' | null
 
