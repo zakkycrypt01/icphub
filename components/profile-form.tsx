@@ -57,22 +57,6 @@ export function ProfileForm() {
   useEffect(() => {
     loadUserProfile();
   }, [telegramId]);
-  // Fetch the profile on component mount
-  // useEffect(() => {
-  //   const loadUserProfile = async () => {
-  //     if (!telegramId) {
-  //       console.log('Telegram ID is missing.');
-  //       setIsLoading(true);
-  //       return;
-  //     }
-  //     const fetchedProfile = await fetchUserProfile(telegramId.toString());
-  //     if (fetchedProfile) {
-  //       setProfile(fetchedProfile);
-  //     }
-  //     setIsLoading(false);
-  //   };
-  //   loadUserProfile();
-  // }, [telegramId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
