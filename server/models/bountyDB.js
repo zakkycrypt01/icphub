@@ -8,9 +8,11 @@ dotenv.config();
 const bountySchema = new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
-    reward: { type: Number, required: true },
-    deadline: { type: Number, required: true },
+    reward: { type: String, required: true },
+    deadline: { type:String, required: true },
     skills: { type: String, required: true },
+    bountyid: { type: String, required: true },
+    applicants: { type: Number, default: 0 },
     status: {
         type: String,
         enum: ["ongoing", "in-review", "completed"],

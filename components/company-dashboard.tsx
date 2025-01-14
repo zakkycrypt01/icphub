@@ -1,44 +1,87 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { BountyForm } from "@/components/bounty-form"
+import { useState } from "react";
+import { postBounty } from "@/actions/postbounty";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { BountyForm } from "@/components/bounty-form";
 
 type Bounty = {
-  id: number
-  title: string
-  reward: string
-  applicants: number
-  status: 'Open' | 'Closed' | 'Completed'
-}
+  bountyid: number;
+  title: string;
+  reward: string;
+  applicants: number;
+  description?: string;
+  companyname?: string;
+  deadline?: string;
+  postedby?: string;
+  skills?: string;
+  status: "ongoing" | "in-review" | "completed";
+};
 
 export function CompanyDashboard() {
-  const [showBountyForm, setShowBountyForm] = useState(false)
+  const [showBountyForm, setShowBountyForm] = useState(false);
   const [bounties, setBounties] = useState<Bounty[]>([
-    { id: 1, title: "DeFi Dashboard", reward: "5000 ICP", applicants: 3, status: 'Open' },
-    { id: 2, title: "Smart Contract Audit", reward: "7500 ICP", applicants: 1, status: 'Closed' },
-    { id: 3, title: "NFT Marketplace", reward: "10000 ICP", applicants: 0, status: 'Open' },
-  ])
+    {
+      bountyid: 1,
+      title: "DeFi Dashboard",
+      reward: "5000 ICP",
+      applicants: 3,
+      status: "ongoing",
+    },
+    {
+      bountyid: 2,
+      title: "Smart Contract Audit",
+      reward: "7500 ICP",
+      applicants: 1,
+      status: "in-review",
+    },
+    {
+      bountyid: 3,
+      title: "NFT Marketplace",
+      reward: "10000 ICP",
+      applicants: 0,
+      status: "completed",
+    },
+  ]);
 
-  const handlePostBounty = (bountyData: any) => {
+  const handlePostBounty = async (bountyData: any) => {
     const newBounty: Bounty = {
-      id: bounties.length + 1,
+      bountyid: bountyData.bountyid,
+      description: bountyData.description,
+      companyname: bountyData.companyname,
+      skills: bountyData.skills,
+      deadline: bountyData.deadline,
+      postedby: bountyData.postedby,
       title: bountyData.title,
       reward: `${bountyData.reward} ICP`,
       applicants: 0,
-      status: 'Open'
-    }
-    setBounties([...bounties, newBounty])
-    setShowBountyForm(false)
-  }
+      status: "ongoing",
+    };
+    setBounties([...bounties, newBounty]);
+    setShowBountyForm(false);
+    console.log("newBounty :>> ", newBounty);
+    const response = await postBounty(newBounty);
+    console.log("response :>> ", response);
+  };
 
-  const handleCloseBounty = (id: number) => {
-    setBounties(bounties.map(bounty => 
-      bounty.id === id ? { ...bounty, status: 'Closed' } : bounty
-    ))
-  }
+  const handleCloseBounty = (bountyid: number) => {
+    setBounties(
+      bounties.map((bounty) =>
+        bounty.bountyid === bountyid
+          ? { ...bounty, status: "in-review" }
+          : bounty
+      )
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -47,8 +90,11 @@ export function CompanyDashboard() {
           <CardTitle>Company Dashboard</CardTitle>
         </CardHeader>
         <CardContent>
-          <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' onClick={() => setShowBountyForm(!showBountyForm)}>
-            {showBountyForm ? 'Cancel' : 'Post New Bounty'}
+          <Button
+            className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]"
+            onClick={() => setShowBountyForm(!showBountyForm)}
+          >
+            {showBountyForm ? "Cancel" : "Post New Bounty"}
           </Button>
           {showBountyForm && <BountyForm onSubmit={handlePostBounty} />}
         </CardContent>
@@ -70,15 +116,18 @@ export function CompanyDashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {bounties.map((bounty) => (
-                <TableRow key={bounty.id}>
+              {bounties.map((bounty, index) => (
+                <TableRow key={`${bounty.bountyid}-${index}`}>
                   <TableCell>{bounty.title}</TableCell>
                   <TableCell>{bounty.reward}</TableCell>
                   <TableCell>{bounty.applicants}</TableCell>
                   <TableCell>{bounty.status}</TableCell>
                   <TableCell>
-                    {bounty.status === 'Open' && (
-                      <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' onClick={() => handleCloseBounty(bounty.id)}>
+                    {bounty.status === "ongoing" && (
+                      <Button
+                        className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]"
+                        onClick={() => handleCloseBounty(bounty.bountyid)}
+                      >
                         Close Bounty
                       </Button>
                     )}
@@ -90,6 +139,5 @@ export function CompanyDashboard() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

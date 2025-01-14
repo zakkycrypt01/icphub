@@ -64,8 +64,8 @@ class UserController{
     
     // post a bounty
     static async httpPostbounty(request, response){
-        const {title, description, reward,deadline, skills, companyname, postedby} = request.body;
-        const bounty = await Bounty.create({ title, description, reward, deadline, skills, companyname, postedby});
+        const {title, description, reward,deadline, skills, companyname,bountyid, postedby} = request.body;
+        const bounty = await Bounty.create({ title, description, reward, deadline,bountyid, skills, companyname, postedby});
         const data = {
             title: bounty.title,
             description: bounty.description,
@@ -74,6 +74,7 @@ class UserController{
             skills: bounty.skills,
             companyname: bounty.companyname,
             postedby: bounty.postedby,
+            bountyid: bounty.bountyid,
         }
         response.status(StatusCodes.CREATED).json(data);
     }
