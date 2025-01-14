@@ -167,7 +167,7 @@ useEffect(() => {
                       className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]"
                       onClick={() => handleCompleteBounty(bounty.bountyid)}
                     >
-                      Completed
+                      Reviewed 
                     </Button>
                     )}
                   </TableCell>
