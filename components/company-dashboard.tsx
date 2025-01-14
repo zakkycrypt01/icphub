@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { postBounty } from "@/actions/postbounty";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { fetchBounties } from "@/actions/fetchbounty";
 import {
   Table,
   TableBody,
@@ -15,7 +16,7 @@ import {
 import { BountyForm } from "@/components/bounty-form";
 
 type Bounty = {
-  bountyid: number;
+  bountyid: string;
   title: string;
   reward: string;
   applicants: number;
@@ -31,28 +32,21 @@ export function CompanyDashboard() {
   const [showBountyForm, setShowBountyForm] = useState(false);
   const [bounties, setBounties] = useState<Bounty[]>([
     {
-      bountyid: 1,
-      title: "DeFi Dashboard",
-      reward: "5000 ICP",
-      applicants: 3,
-      status: "ongoing",
-    },
-    {
-      bountyid: 2,
-      title: "Smart Contract Audit",
-      reward: "7500 ICP",
-      applicants: 1,
-      status: "in-review",
-    },
-    {
-      bountyid: 3,
-      title: "NFT Marketplace",
-      reward: "10000 ICP",
+      bountyid: '',
+      title: '',
+      reward: "",
       applicants: 0,
-      status: "completed",
-    },
+      status: "ongoing",
+    }
   ]);
-
+  useEffect(() => {
+    const fetchAndSetBounties = async () => {
+      const fetchedBounties = await fetchBounties();
+      setBounties(fetchedBounties);
+    };
+    fetchAndSetBounties();
+  }, []);
+  
   const handlePostBounty = async (bountyData: any) => {
     const newBounty: Bounty = {
       bountyid: bountyData.bountyid,
@@ -73,10 +67,10 @@ export function CompanyDashboard() {
     console.log("response :>> ", response);
   };
 
-  const handleCloseBounty = (bountyid: number) => {
+  const handleCloseBounty = (bountyid: string) => {
     setBounties(
       bounties.map((bounty) =>
-        bounty.bountyid === bountyid
+        bounty.bountyid === bountyid.toString()
           ? { ...bounty, status: "in-review" }
           : bounty
       )
