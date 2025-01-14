@@ -103,6 +103,17 @@ useEffect(() => {
     updateBountyStatus(bountyid, "in-review");
   };
 
+  const handleCompleteBounty = (bountyid: string) => {
+    setBounties(
+      bounties.map((bounty) =>
+        bounty.bountyid === bountyid.toString()
+          ? { ...bounty, status: "completed" }
+          : bounty
+      )
+    );
+    updateBountyStatus(bountyid, "completed");
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -150,6 +161,14 @@ useEffect(() => {
                       >
                         Close Bounty
                       </Button>
+                    )}
+                    {bounty.status === "in-review" && (
+                      <Button
+                      className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]"
+                      onClick={() => handleCompleteBounty(bounty.bountyid)}
+                    >
+                      Completed
+                    </Button>
                     )}
                   </TableCell>
                 </TableRow>
