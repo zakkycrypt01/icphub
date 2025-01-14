@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { fetchCompanyBounty } from "@/actions/fetchcompanybounty";
 import useTelegramData from './telegramData';
 import { fetchCompanyData as fetchCompanyDataAction} from '@/actions/fetchcompanydata';
+import {updateBountyStatus} from '@/actions/updatebountystatus';
 
 import {
   Table,
@@ -99,6 +100,7 @@ useEffect(() => {
           : bounty
       )
     );
+    updateBountyStatus(bountyid, "in-review");
   };
 
   return (

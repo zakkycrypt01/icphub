@@ -97,6 +97,18 @@ class UserController{
         response.status(StatusCodes.OK).json(bounty);
     }
 
+    //update a bounty status
+    static async httpUpdatebounty(request, response){
+        const bounty = await Bounty.findOne({bountyid: request.params.bountyid});
+        if(bounty){
+            bounty.status = request.body.status;
+            await bounty.save();
+            response.status(StatusCodes.OK).json(bounty);
+        }else{
+            response.status(StatusCodes.NOT_FOUND).send("Bounty not found");
+        }
+    }
+
     //get all userbounties
     static async httpGetuserbounties(request, response){
         const userbounties = await submitbounty.find();

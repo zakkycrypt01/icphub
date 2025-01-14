@@ -16,6 +16,7 @@ userRouter
     .get('/events', UserController.httpGetevents)
     .get('/companies/:telegramId', UserController.httpGetcompany)
     .get('/bounties/company/:companyname', UserController.httpGetbountybycompany)
+    .put('/bounties/:bountyid', UserController.httpUpdatebounty)
 
 
 
