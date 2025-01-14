@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import useTelegramData from './telegramData';
-import { fetchCompanyData as fetchCompanyDataAction } from '@/actions/fethcompanydata';
+import { fetchCompanyData as fetchCompanyDataAction } from '@/actions/fetchcompanydata';
 
 type BountyFormProps = {
   onSubmit: (bounty: BountyData) => void;

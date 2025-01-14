@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { postBounty } from "@/actions/postbounty";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { fetchBounties } from "@/actions/fetchbounty";
+import { fetchCompanyBounty } from "@/actions/fetchcompanybounty";
+import useTelegramData from './telegramData';
+import { fetchCompanyData as fetchCompanyDataAction} from '@/actions/fetchcompanydata';
+
 import {
   Table,
   TableBody,
@@ -30,22 +33,43 @@ type Bounty = {
 
 export function CompanyDashboard() {
   const [showBountyForm, setShowBountyForm] = useState(false);
-  const [bounties, setBounties] = useState<Bounty[]>([
-    {
-      bountyid: '',
-      title: '',
-      reward: "",
-      applicants: 0,
-      status: "ongoing",
-    }
-  ]);
-  useEffect(() => {
-    const fetchAndSetBounties = async () => {
-      const fetchedBounties = await fetchBounties();
-      setBounties(fetchedBounties);
+  const [bounties, setBounties] = useState<Bounty[]>([]);
+  const telegramData = useTelegramData();
+
+const fetchCompanyData = useCallback(async () => {
+  if (!telegramData) {
+    console.log("Telegram data is missing.");
+    return { companyname: '', usertype: '' };
+  }
+
+  try {
+    const telegramId = telegramData.telegram_id?.toString() || '';
+    const fetchedProfile = await fetchCompanyDataAction(telegramId);
+    return {
+      companyname: fetchedProfile?.companyname || '',
+      usertype: fetchedProfile?.usertype || ''
     };
-    fetchAndSetBounties();
-  }, []);
+  } catch (error) {
+    console.error("Error fetching company data:", error);
+    return { companyname: '', usertype: '' };
+  }
+}, [telegramData]);
+
+useEffect(() => {
+  const fetchAndLogCompanyData = async () => {
+    const { companyname, usertype } = await fetchCompanyData();
+    console.log("Fetched company data:", { companyname, usertype });
+    const companyBounties = await fetchCompanyBounty(companyname);
+    setBounties(companyBounties);
+  };
+
+  if (telegramData) {
+    fetchAndLogCompanyData();
+  }
+}, [telegramData, fetchCompanyData]);
+
+  
+
   
   const handlePostBounty = async (bountyData: any) => {
     const newBounty: Bounty = {

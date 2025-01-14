@@ -14,7 +14,8 @@ userRouter
     .get('/talents/:telegramId', UserController.httpGettalent)  
     .get('/userbounties', UserController.httpGetuserbounties)
     .get('/events', UserController.httpGetevents)
-    .get('/companies/:telegramId', UserController.httpGetcompany)  
+    .get('/companies/:telegramId', UserController.httpGetcompany)
+    .get('/bounties/company/:companyname', UserController.httpGetbountybycompany)
 
 
 

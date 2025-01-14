@@ -91,9 +91,15 @@ class UserController{
         response.status(StatusCodes.OK).json(bounty);
     }
 
+    //get all bounty by companyname
+    static async httpGetbountybycompany(request, response){
+        const bounty = await Bounty.find({companyname: request.params.companyname});
+        response.status(StatusCodes.OK).json(bounty);
+    }
+
     //get all userbounties
     static async httpGetuserbounties(request, response){
-        const userbounties = await Userbounty.find();
+        const userbounties = await submitbounty.find();
         response.status(StatusCodes.OK).json(userbounties);
     }
 
