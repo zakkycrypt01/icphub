@@ -87,7 +87,8 @@ class UserController{
 
     //get a bounty
     static async httpGetbounty(request, response){
-        const bounty = await Bounty.findById(request.params.id);
+        console.log(request.params.bountyid);
+        const bounty = await Bounty.findOne({bountyid: request.params.bountyid});
         response.status(StatusCodes.OK).json(bounty);
     }
 

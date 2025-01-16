@@ -8,39 +8,32 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import { fetchBounties } from "@/actions/fetchbounty";
+import { useEffect } from 'react'
+import { fetchBountyById } from '@/actions/fetchbountybyid'
 
-const bounties = [
-  {
-    id: 1,
-    title: "Develop a DeFi Dashboard",
-    description: "Create a user-friendly dashboard for tracking DeFi investments across multiple protocols on the Internet Computer.",
-    reward: "5000 ICP",
-    deadline: "2024-03-31",
-    skills: ["React", "TypeScript", "DeFi"],
-    instructions: "Build a responsive web application using React and TypeScript. The dashboard should connect to various DeFi protocols on the Internet Computer and display real-time data on investments, yields, and portfolio performance."
-  },
-  {
-    id: 2,
-    title: "Smart Contract Auditing Tool",
-    description: "Build an automated tool for auditing smart contracts on the Internet Computer.",
-    reward: "7500 ICP",
-    deadline: "2024-04-15",
-    skills: ["Rust", "Motoko", "Smart Contracts"],
-    instructions: "Develop a command-line tool using Rust that can analyze Motoko smart contracts. The tool should identify common vulnerabilities, check for best practices, and provide a detailed report on potential issues and optimizations."
-  },
-  {
-    id: 3,
-    title: "Decentralized Social Media Platform",
-    description: "Develop a decentralized social media platform with end-to-end encryption for the Nigerian market.",
-    reward: "10000 ICP",
-    deadline: "2024-05-30",
-    skills: ["Motoko", "React", "Cryptography"],
-    instructions: "Create a full-stack application using Motoko for the backend and React for the frontend. Implement end-to-end encryption for all user communications, ensure data is stored on the Internet Computer, and design a user interface tailored for the Nigerian market."
-  }
-]
+interface Bounty {
+  bountyid: string;
+  title: string;
+  description: string;
+  reward: string;
+  deadline: string;
+  skills: string[];
+  instructions: string;
+}
 
-export default function BountyDetailPage({ params }: { params: { id: string } }) {
-  const bounty = bounties.find(b => b.id === parseInt(params.id))
+
+export default function BountyDetailPage() {
+  const [params, setParams] = useState<{ bountyid: string }>({ bountyid: '' });
+  const [bounty, setBounty] = useState<Bounty | null>(null);
+  console.log(params.bountyid);
+  useEffect(() => {
+    const fetchBounty = async () => {
+      const foundbounty: Bounty = await fetchBountyById(params.bountyid);
+      setBounty(foundbounty);
+    };
+    fetchBounty();
+  }, [params.bountyid]);
   const [comment, setComment] = useState('')
   const [comments, setComments] = useState<string[]>([])
   const [submission, setSubmission] = useState({
@@ -104,7 +97,7 @@ export default function BountyDetailPage({ params }: { params: { id: string } })
                   name="link" 
                   value={submission.link} 
                   onChange={handleSubmissionChange} 
-                  placeholder="https://github.com/yourusername/your-repo"
+                  placeholder="your link"
                   required 
                 />
               </div>

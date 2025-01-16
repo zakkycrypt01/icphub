@@ -19,7 +19,7 @@ type BountyData = {
   description: string;
   reward: string;
   deadline: string;
-  skills: string;
+  skills: string[];
   companyname: string;
   postedby: string;
   bountyid: string;
@@ -33,7 +33,7 @@ export function BountyForm({ onSubmit }: BountyFormProps) {
     description: '',
     reward: '',
     deadline: '',
-    skills: '',
+    skills: [''],
     companyname: '',
     postedby: '',
     bountyid: uuidv4(),
@@ -71,7 +71,11 @@ export function BountyForm({ onSubmit }: BountyFormProps) {
   }, [telegramData, fetchCompanyData]);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setBounty({ ...bounty, [e.target.name]: e.target.value });
+    if (e.target.name === 'skills') {
+      setBounty({ ...bounty, skills: e.target.value.split(',').map(skill => skill.trim()) });
+    } else {
+      setBounty({ ...bounty, [e.target.name]: e.target.value });
+    }
   };
   
 
@@ -91,7 +95,7 @@ export function BountyForm({ onSubmit }: BountyFormProps) {
       description: '',
       reward: '',
       deadline: '',
-      skills: '',
+      skills: [''],
       bountyid: uuidv4(), // Generate a new ID for each bounty.
     }));
   };

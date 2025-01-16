@@ -7,14 +7,14 @@ import { Badge } from "@/components/ui/badge"
 type Status = 'ongoing' | 'completed' | 'in-review'
 
 type Item = {
-  id: number
+  bountyid: number
   title: string
   description: string
   reward: string
   deadline: string
   skills: string[]
   postedBy: 'admin' | 'company'
-  companyName?: string
+  companyname?: string
   status: Status
 }
 
@@ -37,7 +37,7 @@ export function BountyList({ items }: BountyListProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => (
-        <Link href={`/bounties/${item.id}`} key={item.id}>
+        <Link href={`/bounties/${item.bountyid}`} key={item.bountyid}>
           <Card className="h-full hover:shadow-lg transition-shadow duration-200">
             <CardHeader>
               <CardTitle className="flex justify-between items-center">
@@ -60,7 +60,7 @@ export function BountyList({ items }: BountyListProps) {
               </div>
               <div className="flex justify-between items-center">
                 <Badge variant={item.postedBy === 'admin' ? 'default' : 'outline'}>
-                  {item.postedBy === 'admin' ? 'Admin' : item.companyName}
+                  {item.postedBy === 'admin' ? 'Admin' : item.companyname}
                 </Badge>
               </div>
             </CardContent>

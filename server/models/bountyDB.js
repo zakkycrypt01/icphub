@@ -10,7 +10,7 @@ const bountySchema = new Schema({
     description: { type: String, required: true },
     reward: { type: String, required: true },
     deadline: { type:String, required: true },
-    skills: { type: String, required: true },
+    skills: { type: [String], required: true },
     bountyid: { type: String, required: true },
     applicants: { type: Number, default: 0 },
     status: {
