@@ -1,44 +1,118 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { BountyForm } from "@/components/bounty-form"
+import { useState, useEffect, useCallback } from "react";
+import { postBounty } from "@/actions/postbounty";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { fetchCompanyBounty } from "@/actions/fetchcompanybounty";
+import useTelegramData from './telegramData';
+import { fetchCompanyData as fetchCompanyDataAction} from '@/actions/fetchcompanydata';
+import {updateBountyStatus} from '@/actions/updatebountystatus';
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { BountyForm } from "@/components/bounty-form";
 
 type Bounty = {
-  id: number
-  title: string
-  reward: string
-  applicants: number
-  status: 'Open' | 'Closed' | 'Completed'
-}
+  bountyid: string;
+  title: string;
+  reward: string;
+  applicants: number;
+  description?: string;
+  companyname?: string;
+  deadline?: string;
+  postedby?: string;
+  skills?: string;
+  status: "ongoing" | "in-review" | "completed";
+};
 
 export function CompanyDashboard() {
-  const [showBountyForm, setShowBountyForm] = useState(false)
-  const [bounties, setBounties] = useState<Bounty[]>([
-    { id: 1, title: "DeFi Dashboard", reward: "5000 ICP", applicants: 3, status: 'Open' },
-    { id: 2, title: "Smart Contract Audit", reward: "7500 ICP", applicants: 1, status: 'Closed' },
-    { id: 3, title: "NFT Marketplace", reward: "10000 ICP", applicants: 0, status: 'Open' },
-  ])
+  const [showBountyForm, setShowBountyForm] = useState(false);
+  const [bounties, setBounties] = useState<Bounty[]>([]);
+  const telegramData = useTelegramData();
 
-  const handlePostBounty = (bountyData: any) => {
+const fetchCompanyData = useCallback(async () => {
+  if (!telegramData) {
+    console.log("Telegram data is missing.");
+    return { companyname: '', usertype: '' };
+  }
+
+  try {
+    const telegramId = telegramData.telegram_id?.toString() || '';
+    const fetchedProfile = await fetchCompanyDataAction(telegramId);
+    return {
+      companyname: fetchedProfile?.companyname || '',
+      usertype: fetchedProfile?.usertype || ''
+    };
+  } catch (error) {
+    console.error("Error fetching company data:", error);
+    return { companyname: '', usertype: '' };
+  }
+}, [telegramData]);
+
+useEffect(() => {
+  const fetchAndLogCompanyData = async () => {
+    const { companyname, usertype } = await fetchCompanyData();
+    console.log("Fetched company data:", { companyname, usertype });
+    const companyBounties = await fetchCompanyBounty(companyname);
+    setBounties(companyBounties);
+  };
+
+  if (telegramData) {
+    fetchAndLogCompanyData();
+  }
+}, [telegramData, fetchCompanyData]);
+
+  
+
+  
+  const handlePostBounty = async (bountyData: any) => {
     const newBounty: Bounty = {
-      id: bounties.length + 1,
+      bountyid: bountyData.bountyid,
+      description: bountyData.description,
+      companyname: bountyData.companyname,
+      skills: bountyData.skills,
+      deadline: bountyData.deadline,
+      postedby: bountyData.postedby,
       title: bountyData.title,
       reward: `${bountyData.reward} ICP`,
       applicants: 0,
-      status: 'Open'
-    }
-    setBounties([...bounties, newBounty])
-    setShowBountyForm(false)
-  }
+      status: "ongoing",
+    };
+    setBounties([...bounties, newBounty]);
+    setShowBountyForm(false);
+    console.log("newBounty :>> ", newBounty);
+    const response = await postBounty(newBounty);
+    console.log("response :>> ", response);
+  };
 
-  const handleCloseBounty = (id: number) => {
-    setBounties(bounties.map(bounty => 
-      bounty.id === id ? { ...bounty, status: 'Closed' } : bounty
-    ))
-  }
+  const handleCloseBounty = (bountyid: string) => {
+    setBounties(
+      bounties.map((bounty) =>
+        bounty.bountyid === bountyid.toString()
+          ? { ...bounty, status: "in-review" }
+          : bounty
+      )
+    );
+    updateBountyStatus(bountyid, "in-review");
+  };
+
+  const handleCompleteBounty = (bountyid: string) => {
+    setBounties(
+      bounties.map((bounty) =>
+        bounty.bountyid === bountyid.toString()
+          ? { ...bounty, status: "completed" }
+          : bounty
+      )
+    );
+    updateBountyStatus(bountyid, "completed");
+  };
 
   return (
     <div className="space-y-6">
@@ -47,8 +121,11 @@ export function CompanyDashboard() {
           <CardTitle>Company Dashboard</CardTitle>
         </CardHeader>
         <CardContent>
-          <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' onClick={() => setShowBountyForm(!showBountyForm)}>
-            {showBountyForm ? 'Cancel' : 'Post New Bounty'}
+          <Button
+            className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]"
+            onClick={() => setShowBountyForm(!showBountyForm)}
+          >
+            {showBountyForm ? "Cancel" : "Post New Bounty"}
           </Button>
           {showBountyForm && <BountyForm onSubmit={handlePostBounty} />}
         </CardContent>
@@ -70,17 +147,28 @@ export function CompanyDashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {bounties.map((bounty) => (
-                <TableRow key={bounty.id}>
+              {bounties.map((bounty, index) => (
+                <TableRow key={`${bounty.bountyid}-${index}`}>
                   <TableCell>{bounty.title}</TableCell>
                   <TableCell>{bounty.reward}</TableCell>
                   <TableCell>{bounty.applicants}</TableCell>
                   <TableCell>{bounty.status}</TableCell>
                   <TableCell>
-                    {bounty.status === 'Open' && (
-                      <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' onClick={() => handleCloseBounty(bounty.id)}>
+                    {bounty.status === "ongoing" && (
+                      <Button
+                        className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]"
+                        onClick={() => handleCloseBounty(bounty.bountyid)}
+                      >
                         Close Bounty
                       </Button>
+                    )}
+                    {bounty.status === "in-review" && (
+                      <Button
+                      className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]"
+                      onClick={() => handleCompleteBounty(bounty.bountyid)}
+                    >
+                      Reviewed 
+                    </Button>
                     )}
                   </TableCell>
                 </TableRow>
@@ -90,6 +178,5 @@ export function CompanyDashboard() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

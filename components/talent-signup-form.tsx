@@ -1,130 +1,190 @@
-import { useState, useEffect } from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import useTelegramData from "@/components/telegramData"
-import { registerTalent } from '@/actions/registertalent'
-
-interface TelegramData {
-  telegram_id: string;
-}
-
+import { useState, useEffect } from "react";
+import { useRouter } from 'next/navigation'
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import useTelegramData from "@/components/telegramData";
+import { registerTalent } from "@/actions/registertalent";
+import { fetchUserProfile } from "@/actions/fetchuser"; 
+console.log(process.env.NEXT_PUBLIC_API_URL);
 
 export function TalentSignupForm() {
   const telegramData = useTelegramData();
-
-  const LOCAL_URL = 'http://localhost:2001';
-
-  const userId = telegramData?.telegram_id?.toString();  
-  const Username = telegramData?.username?.toString();
-  const Firstname = telegramData?.first_name?.toString();
-  const Lastname = telegramData?.last_name?.toString();  
-  const [formData, setFormData] = useState({
-    firstname: '',
-    lastname: '',
-    email: '',
-    phonenum: '',
-    telegram: '',
-    twitter: '',
-    PoF: '',
-    role: '',
-    telegramId:'',
-    state: ''
-  })
+  const Router = useRouter();
   
+  const loadUserProfile = async () => {
+    if (!telegramData) {
+      setLoading(true);
+      console.log("Telegram data is missing.");
+      return;
+    }
+    const fetchedProfile = await fetchUserProfile(telegramData?.telegram_id?.toString() || "");
+    if (fetchedProfile) {
+      console.log("User is already registered.");
+      return Router.push("/profile");
+    }
+    setLoading(false);
+  }
+
   useEffect(() => {
-    if (userId) {
+    loadUserProfile();
+  }, [telegramData]);
+  
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    phonenum: "",
+    telegram: "",
+    twitter: "",
+    PoF: "",
+    role: "",
+    telegramId: "",
+    state: "",
+  });
+
+  const [error, setError] = useState({
+    email: "",
+    phonenum: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (telegramData) {
       setFormData((prevData) => ({
         ...prevData,
-        telegramId: userId,
+        telegramId: telegramData?.telegram_id?.toString() || "",
+        telegram: telegramData?.username?.toString() || "",
+        firstname: telegramData?.first_name?.toString() || "",
+        lastname: telegramData?.last_name?.toString() || "",
       }));
     }
-  }, [userId]);
+  }, [telegramData]);
 
-  useEffect(() => {
-    if (Username) {
-      setFormData((prevData) => ({
-        ...prevData,
-        telegram : Username,
-      }))
-    }
-  }, [Username]);
-  useEffect(() => {
-    if (Firstname) {
-      setFormData((prevData) => ({
-        ...prevData,
-        firstname : Firstname,
-      }))
-    }
-  }, [Firstname]);
-  useEffect(() => {
-    if (Lastname) {
-      setFormData((prevData) => ({
-        ...prevData,
-        lastname : Lastname,
-      }))
-    }
-  }, [Lastname]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  //validate email
+  const validateEmail = (email: string) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(email);
+  };
   
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    // Here you would typically send the form data to your backend
- const result = await registerTalent(formData);
-console.log('response :>> ', result);    
-    if (result.data){
-      console.log('Talent form submitted:', result.data)
-    } else{
-      alert(result.msg || 'Something went wrong can you please try again');
+    e.preventDefault();
+    setLoading(true);
+    const response = await registerTalent(formData);
+    if (response.error) {
+      setError(response.error);
+    } else {
+      Router.push("/profile");
     }
-    console.log('Talent form submitted:', formData)
-    // Reset form or show success message
-  }
+    setLoading(false);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="firstname">First Name</Label>
-          <Input id="firstName" name="firstname" value={formData.firstname} onChange={handleChange} required />
+          <Input
+            id="firstname"
+            name="firstname"
+            value={formData.firstname}
+            onChange={handleChange}
+            required
+          />
         </div>
         <div>
           <Label htmlFor="lastname">Last Name</Label>
-          <Input id="lastName" name="lastname" value={formData.lastname} onChange={handleChange} required />
+          <Input
+            id="lastname"
+            name="lastname"
+            value={formData.lastname}
+            onChange={handleChange}
+            required
+          />
         </div>
       </div>
       <div>
         <Label htmlFor="email">Email</Label>
-        <Input id="email" name="email" type="email" value={formData.email} onChange={handleChange} required />
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
+          className={error.email ? "border-red-500" : ""}
+        />
+        {error.email && <p className="text-red-500 text-sm">{error.email}</p>}
       </div>
       <div>
         <Label htmlFor="phonenum">Phone Number</Label>
-        <Input id="phonenum" name="phonenum" value={formData.phonenum} onChange={handleChange} required />
+        <Input
+          id="phonenum"
+          name="phonenum"
+          value={formData.phonenum}
+          onChange={handleChange}
+          required
+          className={error.phonenum ? "border-red-500" : ""}
+        />
+        {error.phonenum && <p className="text-red-500 text-sm">{error.phonenum}</p>}
       </div>
       <div>
         <Label htmlFor="telegramHandle">Telegram Handle</Label>
-        <Input id="telegramHandle" name="telegram" value={formData.telegram} onChange={handleChange} required readOnly/>
+        <Input
+          id="telegramHandle"
+          name="telegram"
+          value={formData.telegram}
+          onChange={handleChange}
+          required
+          readOnly
+        />
       </div>
       <div>
         <Label htmlFor="twitterProfile">Twitter Profile Handle</Label>
-        <Input id="twitterProfile" name="twitter" value={formData.twitter} onChange={handleChange} required />
+        <Input
+          id="twitterProfile"
+          name="twitter"
+          value={formData.twitter}
+          onChange={handleChange}
+          required
+        />
       </div>
       <div>
         <Label htmlFor="proofOfWork">Proof of Work</Label>
-        <Textarea id="proofOfWork" name="PoF" value={formData.PoF} onChange={handleChange} required />
+        <Textarea
+          id="proofOfWork"
+          name="PoF"
+          value={formData.PoF}
+          onChange={handleChange}
+          required
+        />
       </div>
       <div>
         <Label htmlFor="telegram_Id">Telegram ID</Label>
-        <Input id="telegramID" name="telegramId" value={formData.telegramId} onChange={handleChange} required readOnly/>
+        <Input
+          id="telegramID"
+          name="telegramId"
+          value={formData.telegramId}
+          onChange={handleChange}
+          required
+          readOnly
+        />
       </div>
       <div>
         <Label>Role</Label>
-        <RadioGroup onValueChange={(value: string) => setFormData({ ...formData, role: value })} required>
+        <RadioGroup
+          onValueChange={(value: string) => setFormData({ ...formData, role: value })}
+          required
+        >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="developer" id="developer" />
             <Label htmlFor="developer">Developer/Engineer</Label>
@@ -150,14 +210,17 @@ console.log('response :>> ', result);
             <Label htmlFor="founder">Founder</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="community mod" id="nftArtist" />
-            <Label htmlFor="community mod">Community Moderator</Label>
+            <RadioGroupItem value="communityMod" id="communityMod" />
+            <Label htmlFor="communityMod">Community Moderator</Label>
           </div>
         </RadioGroup>
       </div>
       <div>
-        <Label> State </Label>
-        <RadioGroup onValueChange={(value: string) => setFormData({ ...formData, state: value })} required>
+        <Label>State</Label>
+        <RadioGroup
+          onValueChange={(value: string) => setFormData({ ...formData, state: value })}
+          required
+        >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="lagos" id="lagos" />
             <Label htmlFor="lagos">Lagos</Label>
@@ -180,8 +243,13 @@ console.log('response :>> ', result);
           </div>
         </RadioGroup>
       </div>
-      <Button className='bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]' type="submit">Submit Application</Button>
+      <Button
+        className="bg-transparent hover:bg-gray-700 text-white border-2 border-[#A5B9D0]"
+        type="submit"
+        disabled={loading}
+      >
+        {loading ? "Submitting..." : "Submit Application"}
+      </Button>
     </form>
-  )
+  );
 }
-

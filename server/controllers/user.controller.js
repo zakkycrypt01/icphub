@@ -54,11 +54,18 @@ class UserController{
         response.status(StatusCodes.CREATED).json(data);
     }
 
+    //get company by telegramId
+    static async httpGetcompany(request, response){
+        const company = await
+        Company.findOne({telegramId: request.params.telegramId});
+        response.status(StatusCodes.OK).json(company);
+    }
+
     
     // post a bounty
     static async httpPostbounty(request, response){
-        const {title, description, reward,deadline, skills, companyname, postedby} = request.body;
-        const bounty = await Bounty.create({ title, description, reward, deadline, skills, companyname, postedby});
+        const {title, description, reward,deadline, skills, companyname,bountyid, postedby} = request.body;
+        const bounty = await Bounty.create({ title, description, reward, deadline,bountyid, skills, companyname, postedby});
         const data = {
             title: bounty.title,
             description: bounty.description,
@@ -67,6 +74,7 @@ class UserController{
             skills: bounty.skills,
             companyname: bounty.companyname,
             postedby: bounty.postedby,
+            bountyid: bounty.bountyid,
         }
         response.status(StatusCodes.CREATED).json(data);
     }
@@ -79,13 +87,32 @@ class UserController{
 
     //get a bounty
     static async httpGetbounty(request, response){
-        const bounty = await Bounty.findById(request.params.id);
+        console.log(request.params.bountyid);
+        const bounty = await Bounty.findOne({bountyid: request.params.bountyid});
         response.status(StatusCodes.OK).json(bounty);
+    }
+
+    //get all bounty by companyname
+    static async httpGetbountybycompany(request, response){
+        const bounty = await Bounty.find({companyname: request.params.companyname});
+        response.status(StatusCodes.OK).json(bounty);
+    }
+
+    //update a bounty status
+    static async httpUpdatebounty(request, response){
+        const bounty = await Bounty.findOne({bountyid: request.params.bountyid});
+        if(bounty){
+            bounty.status = request.body.status;
+            await bounty.save();
+            response.status(StatusCodes.OK).json(bounty);
+        }else{
+            response.status(StatusCodes.NOT_FOUND).send("Bounty not found");
+        }
     }
 
     //get all userbounties
     static async httpGetuserbounties(request, response){
-        const userbounties = await Userbounty.find();
+        const userbounties = await submitbounty.find();
         response.status(StatusCodes.OK).json(userbounties);
     }
 

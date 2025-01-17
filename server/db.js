@@ -1,5 +1,10 @@
 import pkg from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 const {connect, connection, set} = pkg;
+
+
 
 const connectDB = async (url) => {
     try {
