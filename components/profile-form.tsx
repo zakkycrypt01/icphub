@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { XPStatBar } from "@/components/xp-stat-bar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Camera } from "lucide-react"
 import { Badge } from '@/components/ui/badge';
 import { fetchUserProfile } from '@/actions/fetchuser';
 import useTelegramData from '@/components/telegramData';
@@ -14,6 +17,9 @@ type UserProfile = {
   email: string;
   telegram: string;
   twitter: string;
+  xp: number;
+  level: number
+  profilePicture: string
 };
 
 type BountySubmission = {
@@ -34,12 +40,16 @@ export function ProfileForm() {
     email: '',
     telegram: '',
     twitter: '',
+    xp: 7500,
+    level: 15,
+    profilePicture: "/placeholder.svg?height=100&width=100",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
+  
   const telegramData = useTelegramData();
   const telegramId = telegramData?.telegram_id;
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const loadUserProfile = async () => {
     if (!telegramId) {
@@ -53,7 +63,7 @@ export function ProfileForm() {
     }
     setIsLoading(false);
   }
-
+  
   useEffect(() => {
     loadUserProfile();
   }, [telegramId]);
@@ -74,6 +84,24 @@ export function ProfileForm() {
     return <p>Loading profile...</p>;
   }
 
+
+  function handleProfilePictureClick() {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  }
+
+  function handleProfilePictureChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfile({ ...profile, profilePicture: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  const maxXP = profile.level * 1000 // Example: each level requires 1000 XP
   return (
     <div className="space-y-6">
       <Card>
@@ -81,6 +109,30 @@ export function ProfileForm() {
           <CardTitle>User Profile</CardTitle>
         </CardHeader>
         <CardContent>
+        <div className="flex items-center space-x-4 mb-6">
+            <div className="relative">
+              <Avatar className="w-24 h-24 cursor-pointer" onClick={handleProfilePictureClick}>
+                <AvatarImage src={profile.profilePicture} alt={profile.firstname} />
+                <AvatarFallback>{profile.firstname[0]}</AvatarFallback>
+              </Avatar>
+              <div
+                className="absolute bottom-0 right-0 bg-primary rounded-full p-1 cursor-pointer"
+                onClick={handleProfilePictureClick}
+              >
+                <Camera className="w-4 h-4 text-primary-foreground" />
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleProfilePictureChange}
+                accept="image/*"
+                className="hidden"
+              />
+            </div>
+            <div className="flex-1">
+              <XPStatBar currentXP={profile.xp} maxXP={maxXP} level={profile.level} />
+            </div>
+          </div>
           {isEditing ? (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>

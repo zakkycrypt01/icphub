@@ -4,6 +4,9 @@ interface UserProfile {
     email: string;
     telegram: string;
     twitter: string;
+    xp: number
+    level: number
+    profilePicture: string
 }
 
 export const fetchUserProfile = async (telegramId: string): Promise<UserProfile | null> => {
